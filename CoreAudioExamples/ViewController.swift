@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import AudioToolbox
 
 class ViewController: UIViewController {
     @IBOutlet weak var record: UIButton!
@@ -16,9 +17,11 @@ class ViewController: UIViewController {
     var audioRecorder: AVAudioRecorder!
 
     var audioEngine: AVAudioEngine!
-    var audioFile: AVAudioFile!
+    var avAudioFile: AVAudioFile!
     var audioPlayerNode: AVAudioPlayerNode!
     
+    var audioFile: ExtAudioFileRef?
+
     override func viewDidLoad() {
         func initAudioRecorder() {
             let session = AVAudioSession.sharedInstance()
@@ -72,11 +75,11 @@ class ViewController: UIViewController {
         func initPlayer() {
             do {
                 audioEngine = AVAudioEngine()
-                audioFile = try AVAudioFile(forReading: getAudioFileUrl())
+                avAudioFile = try AVAudioFile(forReading: getAudioFileUrl())
                 audioPlayerNode = AVAudioPlayerNode()
                 
                 audioEngine.attach(audioPlayerNode)
-                audioEngine.connect(audioPlayerNode, to: audioEngine.outputNode, format: audioFile.processingFormat)
+                audioEngine.connect(audioPlayerNode, to: audioEngine.outputNode, format: avAudioFile.processingFormat)
             } catch let error {
                 fatalError(error.localizedDescription)
             }
@@ -85,7 +88,7 @@ class ViewController: UIViewController {
         do {
             if !audioPlayerNode.isPlaying {
                 audioPlayerNode.stop()
-                audioPlayerNode.scheduleFile(audioFile, at: nil)
+                audioPlayerNode.scheduleFile(avAudioFile, at: nil)
 
                 try audioEngine.start()
                 audioPlayerNode.play()
@@ -106,7 +109,36 @@ class ViewController: UIViewController {
 
         return audioUrl
     }
+    
 }
 
 extension ViewController: AVAudioRecorderDelegate {
+}
+
+extension ViewController {
+    func startRecording(url: URL, ofType type: AudioFileTypeID, forStreamDescription asbd: AudioStreamBasicDescription) {
+        let formatFlags: AudioFormatFlags = (type == kAudioFileAIFFType) ? kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian : kAudioFormatFlagIsSignedInteger
+        var asbdOutput = AudioStreamBasicDescription(
+                   mSampleRate: asbd.mSampleRate,
+                   mFormatID: kAudioFormatLinearPCM,
+                   mFormatFlags: formatFlags,
+                   mBytesPerPacket: 4, mFramesPerPacket: 1, mBytesPerFrame: 4, mChannelsPerFrame: 2, mBitsPerChannel: 16, mReserved: 0)
+        let result = ExtAudioFileCreateWithURL(url as CFURL, type, &asbdOutput, nil, AudioFileFlags.eraseFile.rawValue, &self.audioFile)
+        if result != noErr || self.audioFile == nil {
+            fatalError("Cannot create audio file.")
+        }
+    }
+    
+    func writeBuffer(_ buffers: UnsafeMutableAudioBufferListPointer, _ numFrames: UInt32) {
+        guard let audioFile = self.audioFile else {
+            return
+        }
+        ExtAudioFileWrite(audioFile, numFrames, buffers.unsafeMutablePointer)
+    }
+    
+    func stopRecording() {
+        if let audioFile = self.audioFile {
+            ExtAudioFileDispose(audioFile)
+        }
+    }
 }
