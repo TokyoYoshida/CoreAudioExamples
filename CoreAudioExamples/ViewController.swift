@@ -291,8 +291,9 @@ class AudioWriter {
         guard let audioFile = self.audioFile else {
             return
         }
-        if ExtAudioFileWrite(audioFile, numFrames, buffers.unsafeMutablePointer) != noErr {
-            fatalError("Error write file.")
+        let result = ExtAudioFileWrite(audioFile, numFrames, buffers.unsafeMutablePointer)
+        if result != noErr {
+            fatalError("Error write file.\(result)")
         }
     }
     
