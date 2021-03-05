@@ -72,10 +72,16 @@ class ViewController: UIViewController {
     
     @IBAction func tappedRecord(_ sender: Any) {
         if !audioRecorder.isRecording {
-            audioRecorder.record()
+//            audioRecorder.record()
+            do {
+                try startRecroding()
+            } catch (let error) {
+                print(error)
+            }
             record.setTitle("Stop", for: .normal)
         } else {
-            audioRecorder.stop()
+//            audioRecorder.stop()
+            endRecording()
             record.setTitle("Record", for: .normal)
         }
     }
@@ -235,6 +241,10 @@ extension ViewController {
         let fileUrl = docs.appendingPathComponent("myFile.mp3")
         audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileMP3Type, forStreamDescription: outputDesc)
         try configureAudioUnit()
+    }
+    
+    func endRecording() {
+        audioWriter.closeAudioFile()
     }
 
 }
