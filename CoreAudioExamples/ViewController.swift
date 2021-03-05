@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     var audioEngine: AVAudioEngine!
     var avAudioFile: AVAudioFile!
     var audioPlayerNode: AVAudioPlayerNode!
+    var isRecording: Bool = false
     
     // for Audio Unit
     var mPlayerGraph: AUGraph?
@@ -71,7 +72,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedRecord(_ sender: Any) {
-        if !audioRecorder.isRecording {
+        if !isRecording {
+            isRecording = true
 //            audioRecorder.record()
             do {
                 try startRecroding()
@@ -80,6 +82,7 @@ class ViewController: UIViewController {
             }
             record.setTitle("Stop", for: .normal)
         } else {
+            isRecording = false
 //            audioRecorder.stop()
             endRecording()
             record.setTitle("Record", for: .normal)
@@ -238,8 +241,8 @@ extension ViewController {
         let docs = try fileManager.url(for: .documentDirectory,
                                        in: .userDomainMask,
                                        appropriateFor: nil, create: false)
-        let fileUrl = docs.appendingPathComponent("myFile.mp3")
-        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileMP3Type, forStreamDescription: outputDesc)
+        let fileUrl = docs.appendingPathComponent("myFile.aiff")
+        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileAIFFType, forStreamDescription: outputDesc)
         try configureAudioUnit()
     }
     
