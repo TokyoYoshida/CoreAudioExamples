@@ -296,7 +296,9 @@ class AudioWriter {
     
     func closeAudioFile() {
         if let audioFile = self.audioFile {
-            ExtAudioFileDispose(audioFile)
+            if ExtAudioFileDispose(audioFile) != noErr {
+                fatalError("Cannot close file.")
+            }
         }
     }
 }
