@@ -26,8 +26,10 @@ class ViewController: UIViewController {
     var mixerNode: AUNode = 0
     var inputNodeUnit: AudioUnit?
     var mixerNodeUnit: AudioUnit?
+    var mAudioFormat = AudioStreamBasicDescription()
+    var mBuffers: AudioBufferList?
     // for Extended audio file service
-    var audioFile: ExtAudioFileRef?
+    let audioWriter = AudioWriter()
     
     override func viewDidLoad() {
         func initAudioRecorder() {
@@ -124,6 +126,17 @@ extension ViewController: AVAudioRecorderDelegate {
 
 extension ViewController {
     func configureAudioUnit() throws {
+        
+        mAudioFormat.mSampleRate = AVAudioSession.sharedInstance().preferredSampleRate
+        mAudioFormat.mFormatID = kAudioFormatLinearPCM
+        mAudioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
+        mAudioFormat.mFramesPerPacket = 1
+        mAudioFormat.mBitsPerChannel = 16
+        mAudioFormat.mChannelsPerFrame = 1
+        mAudioFormat.mBytesPerFrame = mAudioFormat.mBitsPerChannel * mAudioFormat.mFramesPerPacket / 8
+        mAudioFormat.mBytesPerPacket = mAudioFormat.mBytesPerFrame * mAudioFormat.mFramesPerPacket
+        mAudioFormat.mReserved = 0
+        
         try AVAudioSession.sharedInstance().setPreferredIOBufferDuration(0.01)
         try AVAudioSession.sharedInstance().setCategory(.multiRoute)
         try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
@@ -172,11 +185,62 @@ extension ViewController {
 
         var flag: UInt32 = 1
         if AudioUnitSetProperty(inputNodeUnit!, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, 0, &flag, UInt32(MemoryLayout<UInt32>.size)) != noErr {
-            fatalError("Cannot set property.")
+            fatalError("Cannot set output property.")
+        }
+        
+        if AudioUnitSetProperty(inputNodeUnit!, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, 1, &flag, UInt32(MemoryLayout<UInt32>.size)) != noErr {
+            fatalError("Cannot set input property.")
         }
            
+        let numBuffers = 1
         
+        let buffer = AudioBuffer(mNumberChannels: mAudioFormat.mChannelsPerFrame, mDataByteSize: 2048 * 2 * 10, mData: UnsafeMutableRawPointer.allocate(byteCount: Int(2048 * 2 * 10), alignment: 8))
+        mBuffers = AudioBufferList(mNumberBuffers: UInt32(numBuffers), mBuffers: buffer)
+
+        let renderCallBack: AURenderCallback = { inRefCon, ioActionFlags, inTimeStamp, inBusNumber, inNumberFrames, ioData in
+            let instance = unsafeBitCast(inRefCon, to: AudioWriter.self)
+
+            if ioActionFlags.pointee.rawValue & AudioUnitRenderActionFlags.unitRenderAction_PostRender.rawValue == AudioUnitRenderActionFlags.unitRenderAction_PostRender.rawValue {
+                guard let abl = UnsafeMutableAudioBufferListPointer(ioData) else {
+                    return noErr
+                }
+                instance.writeToAudioFile(abl, inNumberFrames)
+            }
+            return noErr
+        }
+        
+        if AudioUnitAddRenderNotify(mixerNodeUnit!, renderCallBack, Unmanaged<AudioWriter>.passRetained(self.audioWriter).toOpaque()) != noErr {
+            fatalError("Cannot add render notify.")
+        }
     }
+    
+    func startRecroding() throws {
+
+        var outputDesc: AudioStreamBasicDescription = AudioStreamBasicDescription()
+        outputDesc.mSampleRate = 44100
+        outputDesc.mFormatID = kAudioFormatLinearPCM
+        outputDesc.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
+        outputDesc.mReserved = 0
+        outputDesc.mChannelsPerFrame = 1
+        outputDesc.mBitsPerChannel = 16
+        outputDesc.mFramesPerPacket = 1
+        outputDesc.mBytesPerFrame = outputDesc.mChannelsPerFrame * outputDesc.mBitsPerChannel / 8
+        outputDesc.mBytesPerPacket = outputDesc.mBytesPerFrame * outputDesc.mFramesPerPacket
+            
+        
+        let fileManager = FileManager.default
+        let docs = try fileManager.url(for: .documentDirectory,
+                                       in: .userDomainMask,
+                                       appropriateFor: nil, create: false)
+        let fileUrl = docs.appendingPathComponent("myFile.mp3")
+        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileMP3Type, forStreamDescription: outputDesc)
+        try configureAudioUnit()
+    }
+
+}
+
+class AudioWriter {
+    var audioFile: ExtAudioFileRef?
 
     func createAudioFile(url: URL, ofType type: AudioFileTypeID, forStreamDescription asbd: AudioStreamBasicDescription) {
         let formatFlags: AudioFormatFlags = (type == kAudioFileAIFFType) ? kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian : kAudioFormatFlagIsSignedInteger
