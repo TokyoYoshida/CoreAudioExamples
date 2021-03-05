@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     var inputNodeUnit: AudioUnit?
     var mixerNodeUnit: AudioUnit?
     var mAudioFormat = AudioStreamBasicDescription()
+    var mixerFormat: AudioStreamBasicDescription?
     var mBuffers: AudioBufferList?
     // for Extended audio file service
     let audioWriter = AudioWriter()
@@ -135,6 +136,7 @@ extension ViewController: AVAudioRecorderDelegate {
 
 extension ViewController {
     func configureAudioUnit() throws {
+        mixerFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)?.streamDescription.pointee
         
         mAudioFormat.mSampleRate = AVAudioSession.sharedInstance().preferredSampleRate
         mAudioFormat.mFormatID = kAudioFormatLinearPCM
@@ -221,7 +223,9 @@ extension ViewController {
         if AudioUnitAddRenderNotify(mixerNodeUnit!, renderCallBack, Unmanaged<AudioWriter>.passRetained(self.audioWriter).toOpaque()) != noErr {
             fatalError("Cannot add render notify.")
         }
-        
+    }
+    
+    func startAudioGraph() {
         if AUGraphInitialize(mPlayerGraph!) != noErr {
            fatalError("Cannot Audio Graph initialize.")
         }
@@ -229,7 +233,7 @@ extension ViewController {
         if AUGraphUpdate(mPlayerGraph!, nil) != noErr {
             fatalError("Cannot Audio Graph update.")
         }
-        
+
         if AUGraphStart(mPlayerGraph!) != noErr {
             fatalError("Cannot start Audio Graph.")
         }
@@ -242,17 +246,18 @@ extension ViewController {
     }
     
     func startRecroding() throws {
+        try configureAudioUnit()
 
-        var outputDesc: AudioStreamBasicDescription = AudioStreamBasicDescription()
-        outputDesc.mSampleRate = 44100
-        outputDesc.mFormatID = kAudioFormatLinearPCM
-        outputDesc.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
-        outputDesc.mReserved = 0
-        outputDesc.mChannelsPerFrame = 1
-        outputDesc.mBitsPerChannel = 16
-        outputDesc.mFramesPerPacket = 1
-        outputDesc.mBytesPerFrame = outputDesc.mChannelsPerFrame * outputDesc.mBitsPerChannel / 8
-        outputDesc.mBytesPerPacket = outputDesc.mBytesPerFrame * outputDesc.mFramesPerPacket
+//        var outputDesc: AudioStreamBasicDescription = AudioStreamBasicDescription()
+//        outputDesc.mSampleRate = 44100
+//        outputDesc.mFormatID = kAudioFormatLinearPCM
+//        outputDesc.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
+//        outputDesc.mReserved = 0
+//        outputDesc.mChannelsPerFrame = 1
+//        outputDesc.mBitsPerChannel = 16
+//        outputDesc.mFramesPerPacket = 1
+//        outputDesc.mBytesPerFrame = outputDesc.mChannelsPerFrame * outputDesc.mBitsPerChannel / 8
+//        outputDesc.mBytesPerPacket = outputDesc.mBytesPerFrame * outputDesc.mFramesPerPacket
             
         
         let fileManager = FileManager.default
@@ -260,8 +265,8 @@ extension ViewController {
                                        in: .userDomainMask,
                                        appropriateFor: nil, create: false)
         let fileUrl = docs.appendingPathComponent("myFile.m4a")
-        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, forStreamDescription: outputDesc)
-        try configureAudioUnit()
+        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, audioDesc: mixerFormat!)
+        startAudioGraph()
     }
     
     func endRecording() {
@@ -274,14 +279,31 @@ extension ViewController {
 class AudioWriter {
     var audioFile: ExtAudioFileRef?
 
-    func createAudioFile(url: URL, ofType type: AudioFileTypeID, forStreamDescription asbd: AudioStreamBasicDescription) {
-        let formatFlags: AudioFormatFlags = (type == kAudioFileAIFFType) ? kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian : kAudioFormatFlagIsSignedInteger
-        var asbdOutput = AudioStreamBasicDescription(
-                   mSampleRate: asbd.mSampleRate,
-                   mFormatID: kAudioFormatLinearPCM,
-                   mFormatFlags: formatFlags,
-                   mBytesPerPacket: 4, mFramesPerPacket: 1, mBytesPerFrame: 4, mChannelsPerFrame: 2, mBitsPerChannel: 16, mReserved: 0)
-        let result = ExtAudioFileCreateWithURL(url as CFURL, type, &asbdOutput, nil, AudioFileFlags.eraseFile.rawValue, &self.audioFile)
+    func createAudioFile(url: URL, ofType type: AudioFileTypeID, audioDesc : AudioStreamBasicDescription) {
+        var outputDesc = AudioStreamBasicDescription()
+
+        if type == kAudioFileM4AType {
+            outputDesc.mFormatID = kAudioFormatMPEG4AAC
+            outputDesc.mFormatFlags = AudioFormatFlags(MPEG4ObjectID.AAC_LC.rawValue)
+            outputDesc.mChannelsPerFrame = audioDesc.mChannelsPerFrame
+            outputDesc.mSampleRate = audioDesc.mSampleRate
+            outputDesc.mFramesPerPacket = 1024
+            outputDesc.mBytesPerFrame = 0
+            outputDesc.mBytesPerPacket = 0
+            outputDesc.mBitsPerChannel = 0
+            outputDesc.mReserved = 0
+        } else if type == kAudioFileCAFType || type == kAudioFileWAVEType {
+            outputDesc.mFormatID = kAudioFormatLinearPCM;
+            outputDesc.mFormatFlags = kAudioFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
+            outputDesc.mChannelsPerFrame = 2;
+            outputDesc.mSampleRate = audioDesc.mSampleRate;
+            outputDesc.mFramesPerPacket = 1;
+            outputDesc.mBytesPerFrame = 4;
+            outputDesc.mBytesPerPacket = 4;
+            outputDesc.mBitsPerChannel = 16;
+            outputDesc.mReserved = 0;
+        }
+        let result = ExtAudioFileCreateWithURL(url as CFURL, type, &outputDesc, nil, AudioFileFlags.eraseFile.rawValue, &self.audioFile)
         if result != noErr || self.audioFile == nil {
             fatalError("Cannot create audio file.")
         }
