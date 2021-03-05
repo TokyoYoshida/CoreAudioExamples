@@ -20,8 +20,15 @@ class ViewController: UIViewController {
     var avAudioFile: AVAudioFile!
     var audioPlayerNode: AVAudioPlayerNode!
     
+    // for Audio Unit
+    var mPlayerGraph: AUGraph?
+    var inputNode: AUNode = 0
+    var mixerNode: AUNode = 0
+    var inputNodeUnit: AudioUnit?
+    var mixerNodeUnit: AudioUnit?
+    // for Extended audio file service
     var audioFile: ExtAudioFileRef?
-
+    
     override func viewDidLoad() {
         func initAudioRecorder() {
             let session = AVAudioSession.sharedInstance()
@@ -116,7 +123,62 @@ extension ViewController: AVAudioRecorderDelegate {
 }
 
 extension ViewController {
-    func startRecording(url: URL, ofType type: AudioFileTypeID, forStreamDescription asbd: AudioStreamBasicDescription) {
+    func configureAudioUnit() throws {
+        try AVAudioSession.sharedInstance().setPreferredIOBufferDuration(0.01)
+        try AVAudioSession.sharedInstance().setCategory(.multiRoute)
+        try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+    
+        var unitDesc = AudioComponentDescription()
+        unitDesc.componentType = kAudioUnitType_Output
+        unitDesc.componentSubType = kAudioUnitSubType_VoiceProcessingIO
+        unitDesc.componentManufacturer = kAudioUnitManufacturer_Apple
+        unitDesc.componentFlags = 0
+        unitDesc.componentFlagsMask = 0
+        
+        if NewAUGraph(&mPlayerGraph) != noErr {
+            fatalError("Cannot create audio graph.")
+        }
+        
+        if AUGraphOpen(mPlayerGraph!) != noErr {
+            fatalError("Cannot open audio graph.")
+        }
+        
+        if AUGraphAddNode(mPlayerGraph!, &unitDesc, &inputNode) != noErr {
+            fatalError("Cannot add node.")
+        }
+
+        var mixerDesc = AudioComponentDescription()
+        mixerDesc.componentType = kAudioUnitType_Mixer
+        mixerDesc.componentSubType = kAudioUnitSubType_MultiChannelMixer
+        mixerDesc.componentManufacturer = kAudioUnitManufacturer_Apple
+        mixerDesc.componentFlags = 0
+        mixerDesc.componentFlagsMask = 0
+        
+        if AUGraphAddNode(mPlayerGraph!, &mixerDesc, &mixerNode) != noErr {
+            fatalError("Cannot add node.")
+        }
+        
+        if AUGraphNodeInfo(mPlayerGraph!, inputNode, nil, &inputNodeUnit) != noErr {
+            fatalError("Wrong input node info.")
+        }
+
+        if AUGraphNodeInfo(mPlayerGraph!, mixerNode, nil, &mixerNodeUnit) != noErr {
+            fatalError("Wrong mixer node info.")
+        }
+        
+        if AUGraphConnectNodeInput(mPlayerGraph!, mixerNode, 0, inputNode, 0) != noErr {
+            fatalError("Cannot connect node.")
+        }
+
+        var flag: UInt32 = 1
+        if AudioUnitSetProperty(inputNodeUnit!, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, 0, &flag, UInt32(MemoryLayout<UInt32>.size)) != noErr {
+            fatalError("Cannot set property.")
+        }
+           
+        
+    }
+
+    func createAudioFile(url: URL, ofType type: AudioFileTypeID, forStreamDescription asbd: AudioStreamBasicDescription) {
         let formatFlags: AudioFormatFlags = (type == kAudioFileAIFFType) ? kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian : kAudioFormatFlagIsSignedInteger
         var asbdOutput = AudioStreamBasicDescription(
                    mSampleRate: asbd.mSampleRate,
@@ -129,14 +191,14 @@ extension ViewController {
         }
     }
     
-    func writeBuffer(_ buffers: UnsafeMutableAudioBufferListPointer, _ numFrames: UInt32) {
+    func writeToAudioFile(_ buffers: UnsafeMutableAudioBufferListPointer, _ numFrames: UInt32) {
         guard let audioFile = self.audioFile else {
             return
         }
         ExtAudioFileWrite(audioFile, numFrames, buffers.unsafeMutablePointer)
     }
     
-    func stopRecording() {
+    func closeAudioFile() {
         if let audioFile = self.audioFile {
             ExtAudioFileDispose(audioFile)
         }
