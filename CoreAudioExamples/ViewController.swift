@@ -221,6 +221,24 @@ extension ViewController {
         if AudioUnitAddRenderNotify(mixerNodeUnit!, renderCallBack, Unmanaged<AudioWriter>.passRetained(self.audioWriter).toOpaque()) != noErr {
             fatalError("Cannot add render notify.")
         }
+        
+        if AUGraphInitialize(mPlayerGraph!) != noErr {
+           fatalError("Cannot Audio Graph initialize.")
+        }
+
+        if AUGraphUpdate(mPlayerGraph!, nil) != noErr {
+            fatalError("Cannot Audio Graph update.")
+        }
+        
+        if AUGraphStart(mPlayerGraph!) != noErr {
+            fatalError("Cannot start Audio Graph.")
+        }
+    }
+    
+    func stopAudioGraph() {
+        if AUGraphStop(mPlayerGraph!) != noErr {
+            fatalError("Cannot stop Audio Graph.")
+        }
     }
     
     func startRecroding() throws {
@@ -241,13 +259,14 @@ extension ViewController {
         let docs = try fileManager.url(for: .documentDirectory,
                                        in: .userDomainMask,
                                        appropriateFor: nil, create: false)
-        let fileUrl = docs.appendingPathComponent("myFile.aiff")
-        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileAIFFType, forStreamDescription: outputDesc)
+        let fileUrl = docs.appendingPathComponent("myFile.m4a")
+        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, forStreamDescription: outputDesc)
         try configureAudioUnit()
     }
     
     func endRecording() {
         audioWriter.closeAudioFile()
+        stopAudioGraph()
     }
 
 }
