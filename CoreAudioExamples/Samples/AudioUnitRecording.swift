@@ -150,7 +150,7 @@ extension AudioUnitRecordingViewController {
                                        appropriateFor: nil, create: false)
         let fileUrl = docs.appendingPathComponent("myFile.m4a")
         audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, audioDesc: mixerFormat!)
-        auidoUnitRecorder.start()
+        auidoUnitRecorder.start(audioWriter)
     }
     
     func endRecording() {

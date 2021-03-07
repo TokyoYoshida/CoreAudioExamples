@@ -41,11 +41,11 @@ class AudioWriter {
         }
     }
     
-    func writeToAudioFile(_ buffers: UnsafeMutableAudioBufferListPointer, _ numFrames: UInt32) {
+    func writeToAudioFile(_ buffers: UnsafePointer<AudioBufferList>, _ numFrames: UInt32) {
         guard let audioFile = self.audioFile else {
             return
         }
-        let result = ExtAudioFileWrite(audioFile, numFrames, buffers.unsafeMutablePointer)
+        let result = ExtAudioFileWrite(audioFile, numFrames, buffers)
         if result != noErr {
             fatalError("Error write file.\(result)")
         }
@@ -83,17 +83,13 @@ func RecordingCallback( inRefCon: UnsafeMutableRawPointer,
                    inNumberFrames,
                    &audioBufferList );
 
-  // もらってきたバッファをLoopSoundsにadd
-  let ubpBuf = UnsafeBufferPointer<Int16>( audioBufferList.mBuffers );
-//    refData.currentLoop!.add( buffer: Array( ubpBuf ) );
-  free(dataMem)
+    
+    refData.writer?.writeToAudioFile(&audioBufferList, inNumberFrames)
+
+    free(dataMem)
 
   return noErr;
 }
-
-/**
- * 音声出力コールバックです
- */
 
 func RenderCallback( inRefCon: UnsafeMutableRawPointer,
                      ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,

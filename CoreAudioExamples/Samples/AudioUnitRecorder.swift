@@ -10,8 +10,9 @@ import AudioToolbox
 
 class AudioUnitRecorder {
     class RefConData {
-      var audioUnit: AudioUnit? = nil;
-      var index: Int = 0;
+        var audioUnit: AudioUnit? = nil
+        var index: Int = 0;
+        var writer: AudioWriter? = nil
     }
 
     var refData: RefConData = RefConData()
@@ -107,12 +108,15 @@ class AudioUnitRecorder {
                             UInt32( MemoryLayout<UInt32>.size ) );
     }
 
-    func start() {
+    func start(_ writer: AudioWriter) {
+        refData.writer = writer
         
+        AudioOutputUnitStart( refData.audioUnit! );
     }
     
     func stop() {
-        
+        AudioOutputUnitStop( refData.audioUnit! );
+
     }
 }
 
