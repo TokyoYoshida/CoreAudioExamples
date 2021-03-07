@@ -10,12 +10,11 @@
 		1E2C1E6225F49CDA00CE5DB1 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E5F25F49CDA00CE5DB1 /* MenuItemCell.swift */; };
 		1E2C1E6325F49CDA00CE5DB1 /* MenuDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E6025F49CDA00CE5DB1 /* MenuDataSource.swift */; };
 		1E2C1E6425F49CDA00CE5DB1 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E6125F49CDA00CE5DB1 /* MenuViewController.swift */; };
-		1E2C1E6925F49CE800CE5DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E2C1E6825F49CE800CE5DB1 /* Main.storyboard */; };
-		1E2C1E7225F49D1E00CE5DB1 /* AudioUnitRecording.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E2C1E7125F49D1E00CE5DB1 /* AudioUnitRecording.storyboard */; };
+		1E2C1E8425F49DE300CE5DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8225F49DE300CE5DB1 /* Main.storyboard */; };
 		1EFB080B25F1F0B800D5AC6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080A25F1F0B800D5AC6B /* AppDelegate.swift */; };
 		1EFB080D25F1F0B800D5AC6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080C25F1F0B800D5AC6B /* SceneDelegate.swift */; };
 		1EFB080F25F1F0B800D5AC6B /* AudioUnitRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080E25F1F0B800D5AC6B /* AudioUnitRecording.swift */; };
-		1EFB081225F1F0B800D5AC6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB081025F1F0B800D5AC6B /* Main.storyboard */; };
+		1EFB081225F1F0B800D5AC6B /* AudioUnitRecording.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB081025F1F0B800D5AC6B /* AudioUnitRecording.storyboard */; };
 		1EFB081425F1F0B900D5AC6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB081325F1F0B900D5AC6B /* Assets.xcassets */; };
 		1EFB081725F1F0B900D5AC6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EFB081525F1F0B900D5AC6B /* LaunchScreen.storyboard */; };
 		1EFB082225F1F0B900D5AC6B /* CoreAudioExamplesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB082125F1F0B900D5AC6B /* CoreAudioExamplesTests.swift */; };
@@ -43,13 +42,12 @@
 		1E2C1E5F25F49CDA00CE5DB1 /* MenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		1E2C1E6025F49CDA00CE5DB1 /* MenuDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuDataSource.swift; sourceTree = "<group>"; };
 		1E2C1E6125F49CDA00CE5DB1 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		1E2C1E6825F49CE800CE5DB1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		1E2C1E7125F49D1E00CE5DB1 /* AudioUnitRecording.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AudioUnitRecording.storyboard; sourceTree = "<group>"; };
+		1E2C1E8325F49DE300CE5DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../../ExampleOfiOSLiDAR/ExampleOfiOSLiDAR/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1EFB080725F1F0B800D5AC6B /* CoreAudioExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreAudioExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFB080A25F1F0B800D5AC6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EFB080C25F1F0B800D5AC6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1EFB080E25F1F0B800D5AC6B /* AudioUnitRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitRecording.swift; sourceTree = "<group>"; };
-		1EFB081125F1F0B800D5AC6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1EFB081125F1F0B800D5AC6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AudioUnitRecording.storyboard; sourceTree = "<group>"; };
 		1EFB081325F1F0B900D5AC6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1EFB081625F1F0B900D5AC6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1EFB081825F1F0B900D5AC6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -90,7 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				1EFB080E25F1F0B800D5AC6B /* AudioUnitRecording.swift */,
-				1E2C1E7125F49D1E00CE5DB1 /* AudioUnitRecording.storyboard */,
+				1EFB081025F1F0B800D5AC6B /* AudioUnitRecording.storyboard */,
 			);
 			path = Samples;
 			sourceTree = "<group>";
@@ -120,11 +118,10 @@
 			children = (
 				1EFB080A25F1F0B800D5AC6B /* AppDelegate.swift */,
 				1EFB080C25F1F0B800D5AC6B /* SceneDelegate.swift */,
-				1E2C1E6825F49CE800CE5DB1 /* Main.storyboard */,
+				1E2C1E8225F49DE300CE5DB1 /* Main.storyboard */,
 				1E2C1E6025F49CDA00CE5DB1 /* MenuDataSource.swift */,
 				1E2C1E5F25F49CDA00CE5DB1 /* MenuItemCell.swift */,
 				1E2C1E6125F49CDA00CE5DB1 /* MenuViewController.swift */,
-				1EFB081025F1F0B800D5AC6B /* Main.storyboard */,
 				1E2C1E6D25F49CF000CE5DB1 /* Samples */,
 				1EFB081325F1F0B900D5AC6B /* Assets.xcassets */,
 				1EFB081525F1F0B900D5AC6B /* LaunchScreen.storyboard */,
@@ -256,9 +253,8 @@
 			files = (
 				1EFB081725F1F0B900D5AC6B /* LaunchScreen.storyboard in Resources */,
 				1EFB081425F1F0B900D5AC6B /* Assets.xcassets in Resources */,
-				1EFB081225F1F0B800D5AC6B /* Main.storyboard in Resources */,
-				1E2C1E7225F49D1E00CE5DB1 /* AudioUnitRecording.storyboard in Resources */,
-				1E2C1E6925F49CE800CE5DB1 /* Main.storyboard in Resources */,
+				1EFB081225F1F0B800D5AC6B /* AudioUnitRecording.storyboard in Resources */,
+				1E2C1E8425F49DE300CE5DB1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,12 +320,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1EFB081025F1F0B800D5AC6B /* Main.storyboard */ = {
+		1E2C1E8225F49DE300CE5DB1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E2C1E8325F49DE300CE5DB1 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1EFB081025F1F0B800D5AC6B /* AudioUnitRecording.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1EFB081125F1F0B800D5AC6B /* Base */,
 			);
-			name = Main.storyboard;
+			name = AudioUnitRecording.storyboard;
 			sourceTree = "<group>";
 		};
 		1EFB081525F1F0B900D5AC6B /* LaunchScreen.storyboard */ = {

@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 
-class ViewController: UIViewController {
+class AudioUnitRecordingViewController: UIViewController {
     @IBOutlet weak var record: UIButton!
     @IBOutlet weak var play: UIButton!
     @IBOutlet weak var timeLabel: UILabel!
@@ -131,10 +131,10 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: AVAudioRecorderDelegate {
+extension AudioUnitRecordingViewController: AVAudioRecorderDelegate {
 }
 
-extension ViewController {
+extension AudioUnitRecordingViewController {
     func configureAudioUnit() throws {
         mixerFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)?.streamDescription.pointee
         
