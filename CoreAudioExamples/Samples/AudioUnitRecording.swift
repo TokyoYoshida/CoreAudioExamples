@@ -9,6 +9,9 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 
+let kOutputBus: UInt32 = 0;
+let kInputBus: UInt32 = 1;
+
 class AudioUnitRecordingViewController: UIViewController {
     @IBOutlet weak var record: UIButton!
     @IBOutlet weak var play: UIButton!
@@ -299,7 +302,7 @@ class AudioUnitRecorder {
       guard let ac = AudioComponentFindNext(nil, &acd) else { return  };
       AudioComponentInstanceNew( ac, &( refData.audioUnit ) );
 
-//      initializeCallbacks();
+      initializeCallbacks();
 //      initializeEnableIO();
 //      initializeAudioFormat();
 //      initializeAudioUnitSetting();
@@ -307,24 +310,24 @@ class AudioUnitRecorder {
       AudioUnitInitialize( refData.audioUnit! );
     }
     
-//    func initializeCallbacks() {
-//      var inputCallback = AURenderCallbackStruct( inputProc: RecordingCallback, inputProcRefCon: Unmanaged<Looper.RefConData>.passRetained(refData).toOpaque() );
-//      var outputCallback = AURenderCallbackStruct( inputProc: RenderCallback, inputProcRefCon: Unmanaged<Looper.RefConData>.passRetained(refData).toOpaque() );
-//
-//      AudioUnitSetProperty( refData.audioUnit!,
-//                            kAudioOutputUnitProperty_SetInputCallback,
-//                            kAudioUnitScope_Global,
-//                            kInputBus,
-//                            &inputCallback,
-//                            UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
-//
-//      AudioUnitSetProperty( refData.audioUnit!,
-//                            kAudioUnitProperty_SetRenderCallback,
-//                            kAudioUnitScope_Global,
-//                            kOutputBus,
-//                            &outputCallback,
-//                            UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
-//    }
+    func initializeCallbacks() {
+      var inputCallback = AURenderCallbackStruct( inputProc: RecordingCallback, inputProcRefCon: Unmanaged<AudioUnitRecorder.RefConData>.passRetained(refData).toOpaque() );
+      var outputCallback = AURenderCallbackStruct( inputProc: RenderCallback, inputProcRefCon: Unmanaged<AudioUnitRecorder.RefConData>.passRetained(refData).toOpaque() );
+
+      AudioUnitSetProperty( refData.audioUnit!,
+                            kAudioOutputUnitProperty_SetInputCallback,
+                            kAudioUnitScope_Global,
+                            kInputBus,
+                            &inputCallback,
+                            UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
+
+      AudioUnitSetProperty( refData.audioUnit!,
+                            kAudioUnitProperty_SetRenderCallback,
+                            kAudioUnitScope_Global,
+                            kOutputBus,
+                            &outputCallback,
+                            UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
+    }
 //
 //    func initializeEnableIO() {
 //      var flag: UInt32 = 1;
@@ -438,4 +441,62 @@ class AudioWriter {
             }
         }
     }
+}
+
+func RecordingCallback( inRefCon: UnsafeMutableRawPointer,
+                     ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
+                     inTimeStamp: UnsafePointer<AudioTimeStamp>,
+                     inBusNumber: UInt32,
+                     inNumberFrames: UInt32,
+                     ioData: UnsafeMutablePointer<AudioBufferList>?) -> (OSStatus)
+{
+    let refData = unsafeBitCast( inRefCon, to: AudioUnitRecorder.RefConData.self)
+  // バッファ確保
+  // バッファサイズ計算。Channel * Frame * sizeof( Int16 )
+    let dataSize = UInt32( 1 * inNumberFrames * UInt32( MemoryLayout<Int16>.size ) );
+  let dataMem = malloc( Int( dataSize ) );
+  let audioBuffer = AudioBuffer.init( mNumberChannels: 1, mDataByteSize: dataSize, mData: dataMem );
+  var audioBufferList = AudioBufferList.init( mNumberBuffers: 1, mBuffers: audioBuffer );
+
+  // AudioUnitRender呼び出し
+  AudioUnitRender( refData.audioUnit!,
+                   ioActionFlags,
+                   inTimeStamp,
+                   inBusNumber,
+                   inNumberFrames,
+                   &audioBufferList );
+
+  // もらってきたバッファをLoopSoundsにadd
+  let ubpBuf = UnsafeBufferPointer<Int16>( audioBufferList.mBuffers );
+//    refData.currentLoop!.add( buffer: Array( ubpBuf ) );
+  free(dataMem)
+
+  return noErr;
+}
+
+/**
+ * 音声出力コールバックです
+ */
+
+func RenderCallback( inRefCon: UnsafeMutableRawPointer,
+                     ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>,
+                     inTimeStamp: UnsafePointer<AudioTimeStamp>,
+                     inBusNumber: UInt32,
+                     inNumberFrames: UInt32,
+                     ioData: UnsafeMutablePointer<AudioBufferList>?) -> (OSStatus)
+{
+    let refData = unsafeBitCast( inRefCon, to: AudioUnitRecorder.RefConData.self)
+  // LoopSoundsから再生する範囲のAudioBufferを取得
+//  let end = ( refData.currentLoop?.buffers.count )! % Int( refData.loopDatas.loopCount() );
+//    let start = end - Int( inNumberFrames ) >= 0 ? end - Int( inNumberFrames ) : 0
+
+//    let arr = refData.loopDatas.get( beginIndex: start, endIndex: end );
+
+  // ioDataのバッファにコピー
+    let buf = UnsafeMutableBufferPointer<Int16>( (ioData?.pointee.mBuffers)! );
+//  for i in 0 ..< arr.count {
+//    buf[ i ] = arr[ i ];
+//  }
+
+  return noErr;
 }
