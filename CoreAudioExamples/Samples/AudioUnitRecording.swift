@@ -146,8 +146,8 @@ extension AudioUnitRecordingViewController {
         let docs = try fileManager.url(for: .documentDirectory,
                                        in: .userDomainMask,
                                        appropriateFor: nil, create: false)
-        let fileUrl = docs.appendingPathComponent("myFile.m4a")
-        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, audioDesc: auidoUnitRecorder.audioFormat)
+        let fileUrl = docs.appendingPathComponent("myFile.wav")
+        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileWAVEType, audioDesc: auidoUnitRecorder.audioFormat)
         auidoUnitRecorder.start(audioWriter)
     }
     
