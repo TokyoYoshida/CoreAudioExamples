@@ -142,143 +142,20 @@ extension AudioUnitRecordingViewController: AVAudioRecorderDelegate {
 }
 
 extension AudioUnitRecordingViewController {
-    func configureAudioUnit() throws {
-        mixerFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)?.streamDescription.pointee
-        
-        mAudioFormat.mSampleRate = AVAudioSession.sharedInstance().preferredSampleRate
-        mAudioFormat.mFormatID = kAudioFormatLinearPCM
-        mAudioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
-        mAudioFormat.mFramesPerPacket = 1
-        mAudioFormat.mBitsPerChannel = 16
-        mAudioFormat.mChannelsPerFrame = 1
-        mAudioFormat.mBytesPerFrame = mAudioFormat.mBitsPerChannel * mAudioFormat.mFramesPerPacket / 8
-        mAudioFormat.mBytesPerPacket = mAudioFormat.mBytesPerFrame * mAudioFormat.mFramesPerPacket
-        mAudioFormat.mReserved = 0
-        
-        try AVAudioSession.sharedInstance().setPreferredIOBufferDuration(0.01)
-        try AVAudioSession.sharedInstance().setCategory(.multiRoute)
-        try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
-    
-        var unitDesc = AudioComponentDescription()
-        unitDesc.componentType = kAudioUnitType_Output
-        unitDesc.componentSubType = kAudioUnitSubType_VoiceProcessingIO
-        unitDesc.componentManufacturer = kAudioUnitManufacturer_Apple
-        unitDesc.componentFlags = 0
-        unitDesc.componentFlagsMask = 0
-        
-        if NewAUGraph(&mPlayerGraph) != noErr {
-            fatalError("Cannot create audio graph.")
-        }
-        
-        if AUGraphOpen(mPlayerGraph!) != noErr {
-            fatalError("Cannot open audio graph.")
-        }
-        
-        if AUGraphAddNode(mPlayerGraph!, &unitDesc, &inputNode) != noErr {
-            fatalError("Cannot add node.")
-        }
 
-        var mixerDesc = AudioComponentDescription()
-        mixerDesc.componentType = kAudioUnitType_Mixer
-        mixerDesc.componentSubType = kAudioUnitSubType_MultiChannelMixer
-        mixerDesc.componentManufacturer = kAudioUnitManufacturer_Apple
-        mixerDesc.componentFlags = 0
-        mixerDesc.componentFlagsMask = 0
-        
-        if AUGraphAddNode(mPlayerGraph!, &mixerDesc, &mixerNode) != noErr {
-            fatalError("Cannot add node.")
-        }
-        
-        if AUGraphNodeInfo(mPlayerGraph!, inputNode, nil, &inputNodeUnit) != noErr {
-            fatalError("Wrong input node info.")
-        }
-
-        if AUGraphNodeInfo(mPlayerGraph!, mixerNode, nil, &mixerNodeUnit) != noErr {
-            fatalError("Wrong mixer node info.")
-        }
-        
-        if AUGraphConnectNodeInput(mPlayerGraph!, mixerNode, 0, inputNode, 0) != noErr {
-            fatalError("Cannot connect node.")
-        }
-
-        var flag: UInt32 = 1
-        if AudioUnitSetProperty(inputNodeUnit!, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, 0, &flag, UInt32(MemoryLayout<UInt32>.size)) != noErr {
-            fatalError("Cannot set output property.")
-        }
-        
-        if AudioUnitSetProperty(inputNodeUnit!, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, 1, &flag, UInt32(MemoryLayout<UInt32>.size)) != noErr {
-            fatalError("Cannot set input property.")
-        }
-           
-        let numBuffers = 1
-        
-        let buffer = AudioBuffer(mNumberChannels: mAudioFormat.mChannelsPerFrame, mDataByteSize: 2048 * 2 * 10, mData: UnsafeMutableRawPointer.allocate(byteCount: Int(2048 * 2 * 10), alignment: 8))
-        mBuffers = AudioBufferList(mNumberBuffers: UInt32(numBuffers), mBuffers: buffer)
-
-        let renderCallBack: AURenderCallback = { inRefCon, ioActionFlags, inTimeStamp, inBusNumber, inNumberFrames, ioData in
-            let instance = unsafeBitCast(inRefCon, to: AudioWriter.self)
-
-            if ioActionFlags.pointee.rawValue & AudioUnitRenderActionFlags.unitRenderAction_PostRender.rawValue == AudioUnitRenderActionFlags.unitRenderAction_PostRender.rawValue {
-                guard let abl = UnsafeMutableAudioBufferListPointer(ioData) else {
-                    return noErr
-                }
-                instance.writeToAudioFile(abl, inNumberFrames)
-            }
-            return noErr
-        }
-        
-        if AudioUnitAddRenderNotify(mixerNodeUnit!, renderCallBack, Unmanaged<AudioWriter>.passRetained(self.audioWriter).toOpaque()) != noErr {
-            fatalError("Cannot add render notify.")
-        }
-    }
-    
-    func startAudioGraph() {
-        if AUGraphInitialize(mPlayerGraph!) != noErr {
-           fatalError("Cannot Audio Graph initialize.")
-        }
-
-        if AUGraphUpdate(mPlayerGraph!, nil) != noErr {
-            fatalError("Cannot Audio Graph update.")
-        }
-
-        if AUGraphStart(mPlayerGraph!) != noErr {
-            fatalError("Cannot start Audio Graph.")
-        }
-    }
-    
-    func stopAudioGraph() {
-        if AUGraphStop(mPlayerGraph!) != noErr {
-            fatalError("Cannot stop Audio Graph.")
-        }
-    }
-    
     func startRecroding() throws {
-        try configureAudioUnit()
-
-//        var outputDesc: AudioStreamBasicDescription = AudioStreamBasicDescription()
-//        outputDesc.mSampleRate = 44100
-//        outputDesc.mFormatID = kAudioFormatLinearPCM
-//        outputDesc.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked
-//        outputDesc.mReserved = 0
-//        outputDesc.mChannelsPerFrame = 1
-//        outputDesc.mBitsPerChannel = 16
-//        outputDesc.mFramesPerPacket = 1
-//        outputDesc.mBytesPerFrame = outputDesc.mChannelsPerFrame * outputDesc.mBitsPerChannel / 8
-//        outputDesc.mBytesPerPacket = outputDesc.mBytesPerFrame * outputDesc.mFramesPerPacket
-            
-        
         let fileManager = FileManager.default
         let docs = try fileManager.url(for: .documentDirectory,
                                        in: .userDomainMask,
                                        appropriateFor: nil, create: false)
         let fileUrl = docs.appendingPathComponent("myFile.m4a")
         audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, audioDesc: mixerFormat!)
-        startAudioGraph()
+        auidoUnitRecorder.start()
     }
     
     func endRecording() {
         audioWriter.closeAudioFile()
-        stopAudioGraph()
+        auidoUnitRecorder.stop()
     }
 
 }
