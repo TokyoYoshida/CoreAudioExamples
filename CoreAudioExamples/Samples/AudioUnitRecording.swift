@@ -32,6 +32,7 @@ class AudioUnitRecordingViewController: UIViewController {
     var mBuffers: AudioBufferList?
     // for Extended audio file service
     let audioWriter = AudioWriter()
+    let auidoUnitRecorder = AudioUnitRecorder()
     
     override func viewDidLoad() {
         func initAudioRecorder() {
@@ -40,37 +41,40 @@ class AudioUnitRecordingViewController: UIViewController {
                 try session.setCategory(.playAndRecord, mode: .default)
                 try session.setActive(true)
 
-                let settings = [
-                    AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                    AVSampleRateKey: 44100,
-                    AVNumberOfChannelsKey: 2,
-                    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-                ]
+                auidoUnitRecorder.initializeAudioUnit()
 
-                audioRecorder = try AVAudioRecorder(url: getAudioFileUrl(), settings: settings)
-                audioRecorder.delegate = self
+                //                let settings = [
+//                    AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+//                    AVSampleRateKey: 44100,
+//                    AVNumberOfChannelsKey: 2,
+//                    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+//                ]
+
+                    
+//                audioRecorder = try AVAudioRecorder(url: getAudioFileUrl(), settings: settings)
+//                audioRecorder.delegate = self
             } catch let error {
                 fatalError(error.localizedDescription)
             }
         }
-        func setTimer() {
-            Timer.scheduledTimer(withTimeInterval: 1.0/60.0, repeats: true, block: { (timer) in
-                       self.updateTime()
-                   }
-            )
-        }
+//        func setTimer() {
+//            Timer.scheduledTimer(withTimeInterval: 1.0/60.0, repeats: true, block: { (timer) in
+//                       self.updateTime()
+//                   }
+//            )
+//        }
         
         super.viewDidLoad()
 
         initAudioRecorder()
-        setTimer()
+//        setTimer()
     }
     
-    func updateTime() {
-        DispatchQueue.main.async {
-            self.timeLabel.text = String(self.audioRecorder.currentTime)
-        }
-    }
+//    func updateTime() {
+//        DispatchQueue.main.async {
+//            self.timeLabel.text = String(self.audioRecorder.currentTime)
+//        }
+//    }
     
     @IBAction func tappedRecord(_ sender: Any) {
         if !isRecording {
