@@ -152,8 +152,8 @@ extension AudioUnitRecordingViewController {
     }
     
     func endRecording() {
-        audioWriter.closeAudioFile()
         auidoUnitRecorder.stop()
+        audioWriter.closeAudioFile()
     }
 
 }
