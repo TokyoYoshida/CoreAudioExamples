@@ -303,7 +303,7 @@ class AudioUnitRecorder {
       AudioComponentInstanceNew( ac, &( refData.audioUnit ) );
 
       initializeCallbacks();
-//      initializeEnableIO();
+      initializeEnableIO();
 //      initializeAudioFormat();
 //      initializeAudioUnitSetting();
 
@@ -328,24 +328,24 @@ class AudioUnitRecorder {
                             &outputCallback,
                             UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
     }
-//
-//    func initializeEnableIO() {
-//      var flag: UInt32 = 1;
-//      AudioUnitSetProperty( refData.audioUnit!,
-//                            kAudioOutputUnitProperty_EnableIO,
-//                            kAudioUnitScope_Input,
-//                            kInputBus,
-//                            &flag,
-//                            UInt32( MemoryLayout<UInt32>.size ) );
-//
-//      AudioUnitSetProperty( refData.audioUnit!,
-//                            kAudioOutputUnitProperty_EnableIO,
-//                            kAudioUnitScope_Output,
-//                            kOutputBus,
-//                            &flag,
-//                            UInt32( MemoryLayout<UInt32>.size ) );
-//    }
-//
+
+    func initializeEnableIO() {
+      var flag: UInt32 = 1;
+      AudioUnitSetProperty( refData.audioUnit!,
+                            kAudioOutputUnitProperty_EnableIO,
+                            kAudioUnitScope_Input,
+                            kInputBus,
+                            &flag,
+                            UInt32( MemoryLayout<UInt32>.size ) );
+
+      AudioUnitSetProperty( refData.audioUnit!,
+                            kAudioOutputUnitProperty_EnableIO,
+                            kAudioUnitScope_Output,
+                            kOutputBus,
+                            &flag,
+                            UInt32( MemoryLayout<UInt32>.size ) );
+    }
+
 //    func initializeAudioFormat() {
 //      var audioFormat: AudioStreamBasicDescription = AudioStreamBasicDescription();
 //      audioFormat.mSampleRate              = 44100.00;
