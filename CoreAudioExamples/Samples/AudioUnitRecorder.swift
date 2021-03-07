@@ -16,6 +16,7 @@ class AudioUnitRecorder {
     }
 
     var refData: RefConData = RefConData()
+    var audioFormat = AudioStreamBasicDescription()
 
     func initializeAudioUnit() {
       var acd = AudioComponentDescription();
@@ -73,7 +74,7 @@ class AudioUnitRecorder {
     }
 
     func initializeAudioFormat() {
-      var audioFormat: AudioStreamBasicDescription = AudioStreamBasicDescription();
+      
       audioFormat.mSampleRate              = 44100.00;
       audioFormat.mFormatID                = kAudioFormatLinearPCM;
       audioFormat.mFormatFlags          = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;

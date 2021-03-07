@@ -30,8 +30,6 @@ class AudioUnitRecordingViewController: UIViewController {
     var mixerNode: AUNode = 0
     var inputNodeUnit: AudioUnit?
     var mixerNodeUnit: AudioUnit?
-    var mAudioFormat = AudioStreamBasicDescription()
-    var mixerFormat: AudioStreamBasicDescription?
     var mBuffers: AudioBufferList?
     // for Extended audio file service
     let audioWriter = AudioWriter()
@@ -149,7 +147,7 @@ extension AudioUnitRecordingViewController {
                                        in: .userDomainMask,
                                        appropriateFor: nil, create: false)
         let fileUrl = docs.appendingPathComponent("myFile.m4a")
-        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, audioDesc: mixerFormat!)
+        audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileM4AType, audioDesc: auidoUnitRecorder.audioFormat)
         auidoUnitRecorder.start(audioWriter)
     }
     
