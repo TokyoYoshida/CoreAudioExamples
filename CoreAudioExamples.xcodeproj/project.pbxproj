@@ -11,6 +11,7 @@
 		1E2C1E6325F49CDA00CE5DB1 /* MenuDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E6025F49CDA00CE5DB1 /* MenuDataSource.swift */; };
 		1E2C1E6425F49CDA00CE5DB1 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E6125F49CDA00CE5DB1 /* MenuViewController.swift */; };
 		1E2C1E8425F49DE300CE5DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8225F49DE300CE5DB1 /* Main.storyboard */; };
+		1E2C1E8925F4A1A100CE5DB1 /* AudioUnitRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8825F4A1A100CE5DB1 /* AudioUnitRecorder.swift */; };
 		1EFB080B25F1F0B800D5AC6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080A25F1F0B800D5AC6B /* AppDelegate.swift */; };
 		1EFB080D25F1F0B800D5AC6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080C25F1F0B800D5AC6B /* SceneDelegate.swift */; };
 		1EFB080F25F1F0B800D5AC6B /* AudioUnitRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080E25F1F0B800D5AC6B /* AudioUnitRecording.swift */; };
@@ -43,6 +44,7 @@
 		1E2C1E6025F49CDA00CE5DB1 /* MenuDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuDataSource.swift; sourceTree = "<group>"; };
 		1E2C1E6125F49CDA00CE5DB1 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		1E2C1E8325F49DE300CE5DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../../ExampleOfiOSLiDAR/ExampleOfiOSLiDAR/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1E2C1E8825F4A1A100CE5DB1 /* AudioUnitRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitRecorder.swift; sourceTree = "<group>"; };
 		1EFB080725F1F0B800D5AC6B /* CoreAudioExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreAudioExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFB080A25F1F0B800D5AC6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EFB080C25F1F0B800D5AC6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				1EFB080E25F1F0B800D5AC6B /* AudioUnitRecording.swift */,
+				1E2C1E8825F4A1A100CE5DB1 /* AudioUnitRecorder.swift */,
 				1EFB081025F1F0B800D5AC6B /* AudioUnitRecording.storyboard */,
 			);
 			path = Samples;
@@ -283,6 +286,7 @@
 				1E2C1E6425F49CDA00CE5DB1 /* MenuViewController.swift in Sources */,
 				1E2C1E6325F49CDA00CE5DB1 /* MenuDataSource.swift in Sources */,
 				1E2C1E6225F49CDA00CE5DB1 /* MenuItemCell.swift in Sources */,
+				1E2C1E8925F4A1A100CE5DB1 /* AudioUnitRecorder.swift in Sources */,
 				1EFB080B25F1F0B800D5AC6B /* AppDelegate.swift in Sources */,
 				1EFB080D25F1F0B800D5AC6B /* SceneDelegate.swift in Sources */,
 			);
