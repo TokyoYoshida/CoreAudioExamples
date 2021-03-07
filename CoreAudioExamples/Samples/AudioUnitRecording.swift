@@ -304,8 +304,8 @@ class AudioUnitRecorder {
 
       initializeCallbacks();
       initializeEnableIO();
-//      initializeAudioFormat();
-//      initializeAudioUnitSetting();
+      initializeAudioFormat();
+      initializeAudioUnitSetting();
 
       AudioUnitInitialize( refData.audioUnit! );
     }
@@ -346,41 +346,41 @@ class AudioUnitRecorder {
                             UInt32( MemoryLayout<UInt32>.size ) );
     }
 
-//    func initializeAudioFormat() {
-//      var audioFormat: AudioStreamBasicDescription = AudioStreamBasicDescription();
-//      audioFormat.mSampleRate              = 44100.00;
-//      audioFormat.mFormatID                = kAudioFormatLinearPCM;
-//      audioFormat.mFormatFlags          = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
-//      audioFormat.mFramesPerPacket    = 1;
-//      audioFormat.mChannelsPerFrame    = 1;
-//      audioFormat.mBitsPerChannel        = 16;
-//      audioFormat.mBytesPerPacket        = 2;
-//      audioFormat.mBytesPerFrame        = 2;
-//
-//      AudioUnitSetProperty( refData.audioUnit!,
-//                            kAudioUnitProperty_StreamFormat,
-//                            kAudioUnitScope_Output,
-//                            kInputBus,
-//                            &audioFormat,
-//                            UInt32( MemoryLayout<AudioStreamBasicDescription>.size ) );
-//
-//      AudioUnitSetProperty( refData.audioUnit!,
-//                            kAudioUnitProperty_StreamFormat,
-//                            kAudioUnitScope_Input,
-//                            kOutputBus,
-//                            &audioFormat,
-//                            UInt32( MemoryLayout<AudioStreamBasicDescription>.size ));
-//    }
-//
-//    func initializeAudioUnitSetting() {
-//      var flag = 0;
-//      AudioUnitSetProperty( refData.audioUnit!,
-//                            kAudioUnitProperty_ShouldAllocateBuffer,
-//                            kAudioUnitScope_Output,
-//                            kInputBus,
-//                            &flag,
-//                            UInt32( MemoryLayout<UInt32>.size ) );
-//    }
+    func initializeAudioFormat() {
+      var audioFormat: AudioStreamBasicDescription = AudioStreamBasicDescription();
+      audioFormat.mSampleRate              = 44100.00;
+      audioFormat.mFormatID                = kAudioFormatLinearPCM;
+      audioFormat.mFormatFlags          = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+      audioFormat.mFramesPerPacket    = 1;
+      audioFormat.mChannelsPerFrame    = 1;
+      audioFormat.mBitsPerChannel        = 16;
+      audioFormat.mBytesPerPacket        = 2;
+      audioFormat.mBytesPerFrame        = 2;
+
+      AudioUnitSetProperty( refData.audioUnit!,
+                            kAudioUnitProperty_StreamFormat,
+                            kAudioUnitScope_Output,
+                            kInputBus,
+                            &audioFormat,
+                            UInt32( MemoryLayout<AudioStreamBasicDescription>.size ) );
+
+      AudioUnitSetProperty( refData.audioUnit!,
+                            kAudioUnitProperty_StreamFormat,
+                            kAudioUnitScope_Input,
+                            kOutputBus,
+                            &audioFormat,
+                            UInt32( MemoryLayout<AudioStreamBasicDescription>.size ));
+    }
+
+    func initializeAudioUnitSetting() {
+      var flag = 0;
+      AudioUnitSetProperty( refData.audioUnit!,
+                            kAudioUnitProperty_ShouldAllocateBuffer,
+                            kAudioUnitScope_Output,
+                            kInputBus,
+                            &flag,
+                            UInt32( MemoryLayout<UInt32>.size ) );
+    }
 
     func start() {
         
