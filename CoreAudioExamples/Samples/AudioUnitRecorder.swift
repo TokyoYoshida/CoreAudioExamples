@@ -39,7 +39,7 @@ class AudioUnitRecorder {
     
     func initializeCallbacks() {
       var inputCallback = AURenderCallbackStruct( inputProc: RecordingCallback, inputProcRefCon: Unmanaged<AudioUnitRecorder.RefConData>.passRetained(refData).toOpaque() );
-      var outputCallback = AURenderCallbackStruct( inputProc: RenderCallback, inputProcRefCon: Unmanaged<AudioUnitRecorder.RefConData>.passRetained(refData).toOpaque() );
+//      var outputCallback = AURenderCallbackStruct( inputProc: RenderCallback, inputProcRefCon: Unmanaged<AudioUnitRecorder.RefConData>.passRetained(refData).toOpaque() );
 
       AudioUnitSetProperty( refData.audioUnit!,
                             kAudioOutputUnitProperty_SetInputCallback,
@@ -48,12 +48,12 @@ class AudioUnitRecorder {
                             &inputCallback,
                             UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
 
-      AudioUnitSetProperty( refData.audioUnit!,
-                            kAudioUnitProperty_SetRenderCallback,
-                            kAudioUnitScope_Global,
-                            kOutputBus,
-                            &outputCallback,
-                            UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
+//      AudioUnitSetProperty( refData.audioUnit!,
+//                            kAudioUnitProperty_SetRenderCallback,
+//                            kAudioUnitScope_Global,
+//                            kOutputBus,
+//                            &outputCallback,
+//                            UInt32(MemoryLayout<AURenderCallbackStruct>.size ) );
     }
 
     func initializeEnableIO() {
