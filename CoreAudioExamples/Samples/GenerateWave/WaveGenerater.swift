@@ -41,6 +41,7 @@ class WaveGenerater {
         }
         func setRenderCallBack() {
             var callBackStruct = AURenderCallbackStruct(inputProc: renderCallBack, inputProcRefCon: Unmanaged<WaveGenerater.RefConData>.passRetained(refData).toOpaque() )
+            AudioUnitSetProperty(audioUnit!, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &callBackStruct, UInt32(MemoryLayout.size(ofValue: callBackStruct)))
         }
         initAudioUnit()
         setRenderCallBack()
