@@ -10,6 +10,9 @@ import AVFoundation
 
 class WaveGenerater {
     var audioUnit: AudioUnit?
+    static let sampleRate: Float = 44100.0
+    static let toneA: Float = 440.0
+    static var frame: Float = 0
     class RefConData {
     }
     var refData: RefConData = RefConData()
@@ -21,6 +24,17 @@ class WaveGenerater {
         inBusNumber: UInt32,
         inNumberFrames: UInt32,
         ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
+        
+        let abl = UnsafeMutableAudioBufferListPointer(ioData)
+        let capacity = Int(abl![0].mDataByteSize) / MemoryLayout<Float>.size
+        
+        if let buffer = abl![0].mData?.bindMemory(to: Float.self, capacity: capacity) {
+            for i in 0..<Int(inNumberFrames) {
+                buffer[i] = sin(frame * toneA * 2.0 * Float(Double.pi) / sampleRate)
+                frame += 1
+            }
+        }
+        
         return noErr
     }
     
@@ -41,10 +55,27 @@ class WaveGenerater {
         }
         func setRenderCallBack() {
             var callBackStruct = AURenderCallbackStruct(inputProc: renderCallBack, inputProcRefCon: Unmanaged<WaveGenerater.RefConData>.passRetained(refData).toOpaque() )
+            
             AudioUnitSetProperty(audioUnit!, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &callBackStruct, UInt32(MemoryLayout.size(ofValue: callBackStruct)))
+        }
+        func setAudioInputFormat() {
+            var asbd = AudioStreamBasicDescription()
+            
+            asbd.mSampleRate = Float64(WaveGenerater.sampleRate)
+            asbd.mFormatID = kAudioFormatLinearPCM
+            asbd.mFormatFlags = kAudioFormatFlagIsFloat
+            asbd.mChannelsPerFrame = 1
+            asbd.mBytesPerPacket = UInt32(MemoryLayout<Float32>.size)
+            asbd.mBytesPerFrame = UInt32(MemoryLayout<Float32>.size)
+            asbd.mFramesPerPacket = 1
+            asbd.mBitsPerChannel = UInt32(8 * MemoryLayout<Float32>.size)
+            asbd.mReserved = 0
+
+            AudioUnitSetProperty(audioUnit!, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, UInt32(MemoryLayout.size(ofValue: asbd)))
         }
         initAudioUnit()
         setRenderCallBack()
+        setAudioInputFormat()
     }
     
 }
