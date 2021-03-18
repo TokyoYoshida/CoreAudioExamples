@@ -13,9 +13,8 @@ let kOutputBus: UInt32 = 0;
 let kInputBus: UInt32 = 1;
 
 class AudioUnitRecordingViewController: UIViewController {
-    @IBOutlet weak var record: UIButton!
-    @IBOutlet weak var play: UIButton!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
     
     var audioRecorder: AVAudioRecorder!
 
@@ -43,55 +42,29 @@ class AudioUnitRecordingViewController: UIViewController {
                 try session.setActive(true)
 
                 auidoUnitRecorder.initializeAudioUnit()
-
-                //                let settings = [
-//                    AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-//                    AVSampleRateKey: 44100,
-//                    AVNumberOfChannelsKey: 2,
-//                    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-//                ]
-
-                    
-//                audioRecorder = try AVAudioRecorder(url: getAudioFileUrl(), settings: settings)
-//                audioRecorder.delegate = self
             } catch let error {
                 fatalError(error.localizedDescription)
             }
         }
-//        func setTimer() {
-//            Timer.scheduledTimer(withTimeInterval: 1.0/60.0, repeats: true, block: { (timer) in
-//                       self.updateTime()
-//                   }
-//            )
-//        }
         
         super.viewDidLoad()
 
         initAudioRecorder()
-//        setTimer()
     }
-    
-//    func updateTime() {
-//        DispatchQueue.main.async {
-//            self.timeLabel.text = String(self.audioRecorder.currentTime)
-//        }
-//    }
     
     @IBAction func tappedRecord(_ sender: Any) {
         if !isRecording {
             isRecording = true
-//            audioRecorder.record()
             do {
                 try startRecroding()
             } catch (let error) {
                 print(error)
             }
-            record.setTitle("Stop", for: .normal)
+            recordButton.setTitle("Stop", for: .normal)
         } else {
             isRecording = false
-//            audioRecorder.stop()
             endRecording()
-            record.setTitle("Record", for: .normal)
+            recordButton.setTitle("Record", for: .normal)
         }
     }
     
@@ -112,14 +85,18 @@ class AudioUnitRecordingViewController: UIViewController {
         do {
             if !audioPlayerNode.isPlaying {
                 audioPlayerNode.stop()
-                audioPlayerNode.scheduleFile(avAudioFile, at: nil)
+                audioPlayerNode.scheduleFile(avAudioFile, at: nil, completionCallbackType: .dataPlayedBack) {_ in
+                    DispatchQueue.main.async {
+                        self.playButton.setTitle("Play", for: .normal)
+                    }
+                }
 
                 try audioEngine.start()
                 audioPlayerNode.play()
-                play.setTitle("Stop", for: .normal)
+                playButton.setTitle("Stop", for: .normal)
             } else {
                 audioPlayerNode.stop()
-                play.setTitle("Play", for: .normal)
+                playButton.setTitle("Play", for: .normal)
             }
         } catch let error {
             fatalError(error.localizedDescription)
@@ -129,7 +106,7 @@ class AudioUnitRecordingViewController: UIViewController {
     func getAudioFileUrl() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let docsDirect = paths[0]
-        let audioUrl = docsDirect.appendingPathComponent("recording.m4a")
+        let audioUrl = docsDirect.appendingPathComponent("recording.wav")
 
         return audioUrl
     }
@@ -140,13 +117,8 @@ extension AudioUnitRecordingViewController: AVAudioRecorderDelegate {
 }
 
 extension AudioUnitRecordingViewController {
-
     func startRecroding() throws {
-        let fileManager = FileManager.default
-        let docs = try fileManager.url(for: .documentDirectory,
-                                       in: .userDomainMask,
-                                       appropriateFor: nil, create: false)
-        let fileUrl = docs.appendingPathComponent("myFile.wav")
+        let fileUrl = getAudioFileUrl()
         audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileWAVEType, audioDesc: auidoUnitRecorder.audioFormat)
         auidoUnitRecorder.start(audioWriter)
     }
@@ -155,6 +127,5 @@ extension AudioUnitRecordingViewController {
         auidoUnitRecorder.stop()
         audioWriter.closeAudioFile()
     }
-
 }
 

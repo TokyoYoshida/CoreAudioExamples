@@ -25,15 +25,15 @@ class AudioWriter {
             outputDesc.mBitsPerChannel = 0
             outputDesc.mReserved = 0
         } else if type == kAudioFileCAFType || type == kAudioFileWAVEType {
-            outputDesc.mFormatID = kAudioFormatLinearPCM;
-            outputDesc.mFormatFlags = kAudioFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
-            outputDesc.mChannelsPerFrame = 2;
-            outputDesc.mSampleRate = audioDesc.mSampleRate;
-            outputDesc.mFramesPerPacket = 1;
-            outputDesc.mBytesPerFrame = 4;
-            outputDesc.mBytesPerPacket = 4;
-            outputDesc.mBitsPerChannel = 16;
-            outputDesc.mReserved = 0;
+            outputDesc.mFormatID = kAudioFormatLinearPCM
+            outputDesc.mFormatFlags = kAudioFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger
+            outputDesc.mChannelsPerFrame = 1
+            outputDesc.mSampleRate = audioDesc.mSampleRate
+            outputDesc.mFramesPerPacket = 1
+            outputDesc.mBytesPerFrame = 2
+            outputDesc.mBytesPerPacket = 2
+            outputDesc.mBitsPerChannel = 16
+            outputDesc.mReserved = 0
         }
         let result = ExtAudioFileCreateWithURL(url as CFURL, type, &outputDesc, nil, AudioFileFlags.eraseFile.rawValue, &self.audioFile)
         if result != noErr || self.audioFile == nil {
@@ -68,12 +68,10 @@ func RecordingCallback( inRefCon: UnsafeMutableRawPointer,
                      ioData: UnsafeMutablePointer<AudioBufferList>?) -> (OSStatus)
 {
     let refData = unsafeBitCast( inRefCon, to: AudioUnitRecorder.RefConData.self)
-  // バッファ確保
-  // バッファサイズ計算。Channel * Frame * sizeof( Int16 )
-    let dataSize = UInt32( 1 * inNumberFrames * UInt32( MemoryLayout<Int16>.size ) );
-  let dataMem = malloc( Int( dataSize ) );
-  let audioBuffer = AudioBuffer.init( mNumberChannels: 1, mDataByteSize: dataSize, mData: dataMem );
-  var audioBufferList = AudioBufferList.init( mNumberBuffers: 1, mBuffers: audioBuffer );
+    let dataSize = UInt32( 1 * inNumberFrames * UInt32( MemoryLayout<Int16>.size ) )
+  let dataMem = malloc( Int( dataSize ) )
+  let audioBuffer = AudioBuffer.init( mNumberChannels: 1, mDataByteSize: dataSize, mData: dataMem )
+  var audioBufferList = AudioBufferList.init( mNumberBuffers: 1, mBuffers: audioBuffer )
 
   // AudioUnitRender呼び出し
   AudioUnitRender( refData.audioUnit!,
@@ -81,14 +79,14 @@ func RecordingCallback( inRefCon: UnsafeMutableRawPointer,
                    inTimeStamp,
                    inBusNumber,
                    inNumberFrames,
-                   &audioBufferList );
+                   &audioBufferList )
 
     
     refData.writer?.writeToAudioFile(&audioBufferList, inNumberFrames)
 
     free(dataMem)
 
-  return noErr;
+  return noErr
 }
 
 func RenderCallback( inRefCon: UnsafeMutableRawPointer,
@@ -100,16 +98,16 @@ func RenderCallback( inRefCon: UnsafeMutableRawPointer,
 {
     let refData = unsafeBitCast( inRefCon, to: AudioUnitRecorder.RefConData.self)
   // LoopSoundsから再生する範囲のAudioBufferを取得
-//  let end = ( refData.currentLoop?.buffers.count )! % Int( refData.loopDatas.loopCount() );
+//  let end = ( refData.currentLoop?.buffers.count )! % Int( refData.loopDatas.loopCount() )
 //    let start = end - Int( inNumberFrames ) >= 0 ? end - Int( inNumberFrames ) : 0
 
-//    let arr = refData.loopDatas.get( beginIndex: start, endIndex: end );
+//    let arr = refData.loopDatas.get( beginIndex: start, endIndex: end )
 
   // ioDataのバッファにコピー
-    let buf = UnsafeMutableBufferPointer<Int16>( (ioData?.pointee.mBuffers)! );
+    let buf = UnsafeMutableBufferPointer<Int16>( (ioData?.pointee.mBuffers)! )
 //  for i in 0 ..< arr.count {
-//    buf[ i ] = arr[ i ];
+//    buf[ i ] = arr[ i ]
 //  }
 
-  return noErr;
+  return noErr
 }

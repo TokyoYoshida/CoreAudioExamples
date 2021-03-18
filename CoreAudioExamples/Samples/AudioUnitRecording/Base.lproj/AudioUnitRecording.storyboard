@@ -32,21 +32,13 @@
                                     <action selector="tappedPlay:" destination="Rod-FM-zQy" eventType="touchUpInside" id="ItW-fO-ikY"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPt-GH-GbF">
-                                <rect key="frame" x="183" y="191" width="43" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="T3k-yi-sf6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <outlet property="play" destination="4KP-tg-IlV" id="Qz2-mD-bgP"/>
-                        <outlet property="record" destination="FRF-sv-lvX" id="cdI-tN-Fno"/>
-                        <outlet property="timeLabel" destination="gPt-GH-GbF" id="pJ9-lF-6Z1"/>
+                        <outlet property="playButton" destination="4KP-tg-IlV" id="Qz2-mD-bgP"/>
+                        <outlet property="recordButton" destination="FRF-sv-lvX" id="cdI-tN-Fno"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yg6-gD-gIV" sceneMemberID="firstResponder"/>
