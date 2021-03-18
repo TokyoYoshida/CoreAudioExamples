@@ -27,6 +27,11 @@ class MenuViewModel {
             title: "AudioUnitRecording",
             description: "Display the depth map on the screen.",
             prefix: "AudioUnitRecording"
+        ),
+        MenuItem (
+            title: "GenerateWave",
+            description: "Generate Sin Wave.",
+            prefix: "GenerateWave"
         )
     ]
     
