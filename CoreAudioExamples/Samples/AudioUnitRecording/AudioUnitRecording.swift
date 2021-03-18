@@ -129,7 +129,7 @@ class AudioUnitRecordingViewController: UIViewController {
     func getAudioFileUrl() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let docsDirect = paths[0]
-        let audioUrl = docsDirect.appendingPathComponent("recording.m4a")
+        let audioUrl = docsDirect.appendingPathComponent("recording.wav")
 
         return audioUrl
     }
@@ -142,11 +142,7 @@ extension AudioUnitRecordingViewController: AVAudioRecorderDelegate {
 extension AudioUnitRecordingViewController {
 
     func startRecroding() throws {
-        let fileManager = FileManager.default
-        let docs = try fileManager.url(for: .documentDirectory,
-                                       in: .userDomainMask,
-                                       appropriateFor: nil, create: false)
-        let fileUrl = docs.appendingPathComponent("myFile.wav")
+        let fileUrl = getAudioFileUrl()
         audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileWAVEType, audioDesc: auidoUnitRecorder.audioFormat)
         auidoUnitRecorder.start(audioWriter)
     }
