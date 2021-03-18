@@ -15,7 +15,6 @@ let kInputBus: UInt32 = 1;
 class AudioUnitRecordingViewController: UIViewController {
     @IBOutlet weak var record: UIButton!
     @IBOutlet weak var play: UIButton!
-    @IBOutlet weak var timeLabel: UILabel!
     
     var audioRecorder: AVAudioRecorder!
 
@@ -86,7 +85,7 @@ class AudioUnitRecordingViewController: UIViewController {
         do {
             if !audioPlayerNode.isPlaying {
                 audioPlayerNode.stop()
-                audioPlayerNode.scheduleFile(avAudioFile, at: nil, completionCallbackType: .dataPlayedBack) {_ in 
+                audioPlayerNode.scheduleFile(avAudioFile, at: nil, completionCallbackType: .dataPlayedBack) {_ in
                     DispatchQueue.main.async {
                         self.play.setTitle("Play", for: .normal)
                     }
