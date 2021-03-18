@@ -30,8 +30,8 @@ class AudioWriter {
             outputDesc.mChannelsPerFrame = 1
             outputDesc.mSampleRate = audioDesc.mSampleRate
             outputDesc.mFramesPerPacket = 1
-            outputDesc.mBytesPerFrame = 4
-            outputDesc.mBytesPerPacket = 4
+            outputDesc.mBytesPerFrame = 2
+            outputDesc.mBytesPerPacket = 2
             outputDesc.mBitsPerChannel = 16
             outputDesc.mReserved = 0
         }
