@@ -12,8 +12,8 @@ class WaveGenerater {
     var audioUnit: AudioUnit?
     static let sampleRate: Float = 44100.0
     static let toneA: Float = 440.0
-    static var frame: Float = 0
     class RefConData {
+        var frame: Float = 0
     }
     var refData: RefConData = RefConData()
 
@@ -25,13 +25,15 @@ class WaveGenerater {
         inNumberFrames: UInt32,
         ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
         
+        let refData = unsafeBitCast( inRefCon, to: WaveGenerater.RefConData.self)
+
         let abl = UnsafeMutableAudioBufferListPointer(ioData)
         let capacity = Int(abl![0].mDataByteSize) / MemoryLayout<Float>.size
         
         if let buffer = abl![0].mData?.bindMemory(to: Float.self, capacity: capacity) {
             for i in 0..<Int(inNumberFrames) {
-                buffer[i] = sin(frame * toneA * 2.0 * Float(Double.pi) / sampleRate)
-                frame += 1
+                buffer[i] = sin(refData.frame * toneA * 2.0 * Float(Double.pi) / sampleRate)
+                refData.frame += 1
             }
         }
         
@@ -78,4 +80,17 @@ class WaveGenerater {
         setAudioInputFormat()
     }
     
+    func start() {
+        refData.frame = 0
+        AudioOutputUnitStart(audioUnit!)
+    }
+
+    func stop() {
+        AudioOutputUnitStop(audioUnit!)
+    }
+    
+    func dispose() {
+        AudioUnitUninitialize(audioUnit!)
+        AudioComponentInstanceDispose(audioUnit!)
+    }
 }

@@ -31,6 +31,9 @@
                             <constraint firstItem="dAq-6P-OwK" firstAttribute="centerY" secondItem="UIz-4b-NXx" secondAttribute="centerY" id="SPq-Aj-3PL"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="playButton" destination="dAq-6P-OwK" id="H8B-gq-nGd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VMe-wy-Wkw" sceneMemberID="firstResponder"/>
             </objects>
