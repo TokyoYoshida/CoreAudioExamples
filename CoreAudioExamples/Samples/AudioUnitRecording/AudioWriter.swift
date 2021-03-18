@@ -27,7 +27,7 @@ class AudioWriter {
         } else if type == kAudioFileCAFType || type == kAudioFileWAVEType {
             outputDesc.mFormatID = kAudioFormatLinearPCM
             outputDesc.mFormatFlags = kAudioFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger
-            outputDesc.mChannelsPerFrame = 2
+            outputDesc.mChannelsPerFrame = 1
             outputDesc.mSampleRate = audioDesc.mSampleRate
             outputDesc.mFramesPerPacket = 1
             outputDesc.mBytesPerFrame = 4
