@@ -37,8 +37,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <outlet property="play" destination="4KP-tg-IlV" id="Qz2-mD-bgP"/>
-                        <outlet property="record" destination="FRF-sv-lvX" id="cdI-tN-Fno"/>
+                        <outlet property="playButton" destination="4KP-tg-IlV" id="Qz2-mD-bgP"/>
+                        <outlet property="recordButton" destination="FRF-sv-lvX" id="cdI-tN-Fno"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yg6-gD-gIV" sceneMemberID="firstResponder"/>

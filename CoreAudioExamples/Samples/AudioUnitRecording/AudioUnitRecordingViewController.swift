@@ -13,8 +13,8 @@ let kOutputBus: UInt32 = 0;
 let kInputBus: UInt32 = 1;
 
 class AudioUnitRecordingViewController: UIViewController {
-    @IBOutlet weak var record: UIButton!
-    @IBOutlet weak var play: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
     
     var audioRecorder: AVAudioRecorder!
 
@@ -60,11 +60,11 @@ class AudioUnitRecordingViewController: UIViewController {
             } catch (let error) {
                 print(error)
             }
-            record.setTitle("Stop", for: .normal)
+            recordButton.setTitle("Stop", for: .normal)
         } else {
             isRecording = false
             endRecording()
-            record.setTitle("Record", for: .normal)
+            recordButton.setTitle("Record", for: .normal)
         }
     }
     
@@ -87,16 +87,16 @@ class AudioUnitRecordingViewController: UIViewController {
                 audioPlayerNode.stop()
                 audioPlayerNode.scheduleFile(avAudioFile, at: nil, completionCallbackType: .dataPlayedBack) {_ in
                     DispatchQueue.main.async {
-                        self.play.setTitle("Play", for: .normal)
+                        self.playButton.setTitle("Play", for: .normal)
                     }
                 }
 
                 try audioEngine.start()
                 audioPlayerNode.play()
-                play.setTitle("Stop", for: .normal)
+                playButton.setTitle("Stop", for: .normal)
             } else {
                 audioPlayerNode.stop()
-                play.setTitle("Play", for: .normal)
+                playButton.setTitle("Play", for: .normal)
             }
         } catch let error {
             fatalError(error.localizedDescription)
