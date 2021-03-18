@@ -35,8 +35,10 @@ class GenerateWaveViewController: UIViewController {
             waveGenerator.stop()
         }
         if isPlaying {
+            isPlaying = false
             stop()
         } else {
+            isPlaying = true
             start()
         }
     }
