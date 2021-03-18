@@ -86,7 +86,11 @@ class AudioUnitRecordingViewController: UIViewController {
         do {
             if !audioPlayerNode.isPlaying {
                 audioPlayerNode.stop()
-                audioPlayerNode.scheduleFile(avAudioFile, at: nil)
+                audioPlayerNode.scheduleFile(avAudioFile, at: nil, completionCallbackType: .dataPlayedBack) {_ in 
+                    DispatchQueue.main.async {
+                        self.play.setTitle("Play", for: .normal)
+                    }
+                }
 
                 try audioEngine.start()
                 audioPlayerNode.play()
