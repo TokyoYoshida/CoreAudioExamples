@@ -43,44 +43,19 @@ class AudioUnitRecordingViewController: UIViewController {
                 try session.setActive(true)
 
                 auidoUnitRecorder.initializeAudioUnit()
-
-                //                let settings = [
-//                    AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-//                    AVSampleRateKey: 44100,
-//                    AVNumberOfChannelsKey: 2,
-//                    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-//                ]
-
-                    
-//                audioRecorder = try AVAudioRecorder(url: getAudioFileUrl(), settings: settings)
-//                audioRecorder.delegate = self
             } catch let error {
                 fatalError(error.localizedDescription)
             }
         }
-//        func setTimer() {
-//            Timer.scheduledTimer(withTimeInterval: 1.0/60.0, repeats: true, block: { (timer) in
-//                       self.updateTime()
-//                   }
-//            )
-//        }
         
         super.viewDidLoad()
 
         initAudioRecorder()
-//        setTimer()
     }
-    
-//    func updateTime() {
-//        DispatchQueue.main.async {
-//            self.timeLabel.text = String(self.audioRecorder.currentTime)
-//        }
-//    }
     
     @IBAction func tappedRecord(_ sender: Any) {
         if !isRecording {
             isRecording = true
-//            audioRecorder.record()
             do {
                 try startRecroding()
             } catch (let error) {
@@ -89,7 +64,6 @@ class AudioUnitRecordingViewController: UIViewController {
             record.setTitle("Stop", for: .normal)
         } else {
             isRecording = false
-//            audioRecorder.stop()
             endRecording()
             record.setTitle("Record", for: .normal)
         }
@@ -140,7 +114,6 @@ extension AudioUnitRecordingViewController: AVAudioRecorderDelegate {
 }
 
 extension AudioUnitRecordingViewController {
-
     func startRecroding() throws {
         let fileUrl = getAudioFileUrl()
         audioWriter.createAudioFile(url: fileUrl, ofType: kAudioFileWAVEType, audioDesc: auidoUnitRecorder.audioFormat)
@@ -151,6 +124,5 @@ extension AudioUnitRecordingViewController {
         auidoUnitRecorder.stop()
         audioWriter.closeAudioFile()
     }
-
 }
 
