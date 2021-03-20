@@ -30,6 +30,7 @@ class SynthesizerViewController: UIViewController {
             playButton.setTitle("Stop", for: .normal)
             waveGenerator.setOscillator(oscillator: TriangleOscillator())
             waveGenerator.start()
+            waveGenerator.volume = 0.5
         }
         func stop() {
             playButton.setTitle("Play", for: .normal)
@@ -45,6 +46,6 @@ class SynthesizerViewController: UIViewController {
     }
 
     @IBAction func movedSlider(_ sender: UISlider) {
-        print(sender.value)
+        waveGenerator.volume = sender.value
     }
 }

@@ -9,16 +9,23 @@ import Foundation
 import AVFoundation
 
 class Synthesizer {
-    var audioUnit: AudioUnit?
-    var audioEngine: AVAudioEngine = AVAudioEngine()
-    var sampleRate: Float = 44100.0
-    var time: Float = 0
-    var deltaTime: Float = 0
-    static let toneA: Float = 440.0
-    var mainMixer: AVAudioMixerNode?
-    var outputNode: AVAudioOutputNode?
-    var format: AVAudioFormat?
-    var oscillator: Oscillator?
+    private var audioEngine: AVAudioEngine = AVAudioEngine()
+    private var sampleRate: Float = 44100.0
+    private var time: Float = 0
+    private var deltaTime: Float = 0
+    private var mainMixer: AVAudioMixerNode?
+    private var outputNode: AVAudioOutputNode?
+    private var format: AVAudioFormat?
+    private var oscillator: Oscillator?
+    
+    var volume: Float {
+        set {
+            audioEngine.mainMixerNode.outputVolume = newValue
+        }
+        get {
+            return audioEngine.mainMixerNode.outputVolume
+        }
+    }
 
     lazy var sourceNode = AVAudioSourceNode { [self] (_, _, frameCount, audioBufferList) -> OSStatus in
         let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
@@ -60,7 +67,7 @@ class Synthesizer {
         audioEngine.attach(sourceNode)
         audioEngine.connect(sourceNode, to: mainMixer!, format: inputFormat!)
         audioEngine.connect(mainMixer!, to: outputNode!, format: nil)
-        mainMixer?.outputVolume = 1
+        mainMixer?.outputVolume = 0
         
         do {
             try audioEngine.start()
@@ -86,8 +93,9 @@ protocol Oscillator {
 }
 
 class SinOscillator: Oscillator {
+    let toneA: Float = 440.0
     func signal(time: Float) -> Float {
-        sin(Synthesizer.toneA * 2.0 * Float(Double.pi) * time)
+        sin(toneA * 2.0 * Float(Double.pi) * time)
     }
 }
 
