@@ -90,3 +90,25 @@ class SinOscillator: Oscillator {
         sin(Synthesizer.toneA * 2.0 * Float(Double.pi) * time)
     }
 }
+
+class TriangleOscillator: Oscillator {
+    func signal(time: Float) -> Float {
+        let freqency: Double = 440
+        let amplitude: Float = 1
+        let periood = 1.0 / freqency
+        let currentTime = fmod(Double(time), periood)
+        let value = currentTime / periood
+        
+        var result = 0.0
+        
+        switch value {
+        case 0..<0.25:
+            result = value * 4
+        case 0.25..<0.75:
+            result = 2.0 - (value * 4.0)
+        default:
+            result = value * 4 - 4.0
+        }
+        return amplitude * Float(result)
+    }
+}
