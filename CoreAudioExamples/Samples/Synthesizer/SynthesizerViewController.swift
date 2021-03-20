@@ -43,4 +43,8 @@ class SynthesizerViewController: UIViewController {
             start()
         }
     }
+
+    @IBAction func movedSlider(_ sender: UISlider) {
+        print(sender.value)
+    }
 }

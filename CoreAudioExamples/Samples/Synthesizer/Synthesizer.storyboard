@@ -17,18 +17,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EmO-Kh-E8Z">
-                                <rect key="frame" x="192" y="433" width="30" height="30"/>
+                                <rect key="frame" x="192" y="144" width="30" height="30"/>
                                 <state key="normal" title="Play"/>
                                 <connections>
                                     <action selector="tappedPlayButton:" destination="jhD-Mz-VdU" eventType="touchUpInside" id="N8m-U9-kIt"/>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Bkp-Yq-DJM">
+                                <rect key="frame" x="148" y="209" width="118" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="movedSlider:" destination="jhD-Mz-VdU" eventType="valueChanged" id="FlD-aw-2Ur"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="JpH-TT-XVD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EmO-Kh-E8Z" firstAttribute="centerX" secondItem="FaT-3F-KXB" secondAttribute="centerX" id="HV9-Me-3dD"/>
-                            <constraint firstItem="EmO-Kh-E8Z" firstAttribute="centerY" secondItem="FaT-3F-KXB" secondAttribute="centerY" id="YmT-UZ-Ike"/>
+                            <constraint firstItem="EmO-Kh-E8Z" firstAttribute="top" secondItem="JpH-TT-XVD" secondAttribute="top" constant="100" id="qBS-5J-DLL"/>
                         </constraints>
                     </view>
                     <connections>
