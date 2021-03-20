@@ -10,8 +10,28 @@ import AVFoundation
 
 class Synthesizer {
     var audioUnit: AudioUnit?
-    static let sampleRate: Float = 44100.0
+    var audioEngine: AVAudioEngine = AVAudioEngine()
+    var sampleRate: Float = 44100.0
+    var time: Float = 0
+    var deltaTime: Float = 0
     static let toneA: Float = 440.0
+    var mainMixer: AVAudioMixerNode?
+    var outputNode: AVAudioOutputNode?
+    var format: AVAudioFormat?
+
+    lazy var sourceNode = AVAudioSourceNode { [self] (_, _, frameCount, audioBufferList) -> OSStatus in
+        let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
+        for frame in 0..<Int(frameCount) {
+            let sampleVal: Float = sin(Float(frame) * Synthesizer.toneA * 2.0 * Float(Double.pi) / self.sampleRate)
+            self.time += self.deltaTime
+            for buffer in abl {
+                let buf: UnsafeMutableBufferPointer<Float> = UnsafeMutableBufferPointer(buffer)
+                buf[frame] = sampleVal
+            }
+        }
+        return noErr
+    }
+    
     class RefConData {
         var frame: Float = 0
     }
@@ -32,15 +52,24 @@ class Synthesizer {
         
         if let buffer = abl![0].mData?.bindMemory(to: Float.self, capacity: capacity) {
             for i in 0..<Int(inNumberFrames) {
-                buffer[i] = sin(refData.frame * toneA * 2.0 * Float(Double.pi) / sampleRate)
+//                buffer[i] = sin(refData.frame * toneA * 2.0 * Float(Double.pi) / sampleRate)
                 refData.frame += 1
             }
         }
         
         return noErr
     }
-    
     func prepare() {
+        func initAudioEngene() {
+            mainMixer = audioEngine.mainMixerNode
+            outputNode = audioEngine.outputNode
+            format = outputNode!.inputFormat(forBus: 0)
+
+
+            sampleRate = Float(format!.sampleRate)
+            deltaTime = 1 / Float(sampleRate)
+                                            
+        }
         func initAudioUnit() {
             var acd = AudioComponentDescription()
             acd.componentType = kAudioUnitType_Output
@@ -63,7 +92,7 @@ class Synthesizer {
         func setAudioInputFormat() {
             var asbd = AudioStreamBasicDescription()
             
-            asbd.mSampleRate = Float64(Synthesizer.sampleRate)
+            asbd.mSampleRate = Float64(sampleRate)
             asbd.mFormatID = kAudioFormatLinearPCM
             asbd.mFormatFlags = kAudioFormatFlagIsFloat
             asbd.mChannelsPerFrame = 1
@@ -82,15 +111,27 @@ class Synthesizer {
     
     func start() {
         refData.frame = 0
-        AudioOutputUnitStart(audioUnit!)
+        let inputFormat = AVAudioFormat(commonFormat: format!.commonFormat, sampleRate: Double(sampleRate), channels: 1, interleaved: format!.isInterleaved)
+        audioEngine.attach(sourceNode)
+        audioEngine.connect(sourceNode, to: mainMixer!, format: inputFormat!)
+        audioEngine.connect(mainMixer!, to: outputNode!, format: nil)
+        mainMixer?.outputVolume = 0
+        
+        do {
+            try audioEngine.start()
+        } catch {
+            fatalError("Coud not start engine: \(error.localizedDescription)")
+        }
+        
+//        AudioOutputUnitStart(audioUnit!)
     }
 
     func stop() {
-        AudioOutputUnitStop(audioUnit!)
+//        AudioOutputUnitStop(audioUnit!)
     }
     
     func dispose() {
-        AudioUnitUninitialize(audioUnit!)
-        AudioComponentInstanceDispose(audioUnit!)
+//        AudioUnitUninitialize(audioUnit!)
+//        AudioComponentInstanceDispose(audioUnit!)
     }
 }
