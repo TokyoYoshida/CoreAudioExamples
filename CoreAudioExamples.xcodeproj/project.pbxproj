@@ -13,9 +13,12 @@
 		1E2C1E8425F49DE300CE5DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8225F49DE300CE5DB1 /* Main.storyboard */; };
 		1E2C1E8925F4A1A100CE5DB1 /* AudioUnitRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8825F4A1A100CE5DB1 /* AudioUnitRecorder.swift */; };
 		1E2C1E8E25F4A1CD00CE5DB1 /* AudioWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8D25F4A1CD00CE5DB1 /* AudioWriter.swift */; };
-		1ED48D5626032AC30058E0C0 /* GenerateWave.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ED48D5526032AC30058E0C0 /* GenerateWave.storyboard */; };
-		1ED48D5B26032AF80058E0C0 /* GenerateWaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED48D5A26032AF80058E0C0 /* GenerateWaveViewController.swift */; };
-		1ED48D6026032BEC0058E0C0 /* WaveGenerater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED48D5F26032BEC0058E0C0 /* WaveGenerater.swift */; };
+		1E6511A42605DDB000A90802 /* AudioEngeneGenerateWave.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E6511A32605DDB000A90802 /* AudioEngeneGenerateWave.storyboard */; };
+		1E6511A92605DDC100A90802 /* AudioEngeneGenerateWaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6511A82605DDC100A90802 /* AudioEngeneGenerateWaveViewController.swift */; };
+		1E6511AE2605DE7400A90802 /* AudioEngeneWaveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6511AD2605DE7400A90802 /* AudioEngeneWaveGenerator.swift */; };
+		1ED48D5626032AC30058E0C0 /* AudioUnitGenerateWave.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ED48D5526032AC30058E0C0 /* AudioUnitGenerateWave.storyboard */; };
+		1ED48D5B26032AF80058E0C0 /* AudioUnitGenerateWaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED48D5A26032AF80058E0C0 /* AudioUnitGenerateWaveViewController.swift */; };
+		1ED48D6026032BEC0058E0C0 /* AudioUnitWaveGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED48D5F26032BEC0058E0C0 /* AudioUnitWaveGenerator.swift */; };
 		1EFB080B25F1F0B800D5AC6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080A25F1F0B800D5AC6B /* AppDelegate.swift */; };
 		1EFB080D25F1F0B800D5AC6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080C25F1F0B800D5AC6B /* SceneDelegate.swift */; };
 		1EFB080F25F1F0B800D5AC6B /* AudioUnitRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFB080E25F1F0B800D5AC6B /* AudioUnitRecordingViewController.swift */; };
@@ -50,9 +53,12 @@
 		1E2C1E8325F49DE300CE5DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../../ExampleOfiOSLiDAR/ExampleOfiOSLiDAR/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E2C1E8825F4A1A100CE5DB1 /* AudioUnitRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitRecorder.swift; sourceTree = "<group>"; };
 		1E2C1E8D25F4A1CD00CE5DB1 /* AudioWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWriter.swift; sourceTree = "<group>"; };
-		1ED48D5526032AC30058E0C0 /* GenerateWave.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GenerateWave.storyboard; sourceTree = "<group>"; };
-		1ED48D5A26032AF80058E0C0 /* GenerateWaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateWaveViewController.swift; sourceTree = "<group>"; };
-		1ED48D5F26032BEC0058E0C0 /* WaveGenerater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveGenerater.swift; sourceTree = "<group>"; };
+		1E6511A32605DDB000A90802 /* AudioEngeneGenerateWave.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AudioEngeneGenerateWave.storyboard; sourceTree = "<group>"; };
+		1E6511A82605DDC100A90802 /* AudioEngeneGenerateWaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngeneGenerateWaveViewController.swift; sourceTree = "<group>"; };
+		1E6511AD2605DE7400A90802 /* AudioEngeneWaveGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngeneWaveGenerator.swift; sourceTree = "<group>"; };
+		1ED48D5526032AC30058E0C0 /* AudioUnitGenerateWave.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AudioUnitGenerateWave.storyboard; sourceTree = "<group>"; };
+		1ED48D5A26032AF80058E0C0 /* AudioUnitGenerateWaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitGenerateWaveViewController.swift; sourceTree = "<group>"; };
+		1ED48D5F26032BEC0058E0C0 /* AudioUnitWaveGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitWaveGenerator.swift; sourceTree = "<group>"; };
 		1EFB080725F1F0B800D5AC6B /* CoreAudioExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreAudioExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFB080A25F1F0B800D5AC6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EFB080C25F1F0B800D5AC6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,9 +104,20 @@
 			isa = PBXGroup;
 			children = (
 				1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */,
-				1ED48D5426032A910058E0C0 /* GenerateWave */,
+				1ED48D5426032A910058E0C0 /* AudioUnitGenerateWave */,
+				1E65119A2605DD5600A90802 /* Synthesizer */,
 			);
 			path = Samples;
+			sourceTree = "<group>";
+		};
+		1E65119A2605DD5600A90802 /* Synthesizer */ = {
+			isa = PBXGroup;
+			children = (
+				1E6511A32605DDB000A90802 /* AudioEngeneGenerateWave.storyboard */,
+				1E6511A82605DDC100A90802 /* AudioEngeneGenerateWaveViewController.swift */,
+				1E6511AD2605DE7400A90802 /* AudioEngeneWaveGenerator.swift */,
+			);
+			path = Synthesizer;
 			sourceTree = "<group>";
 		};
 		1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */ = {
@@ -114,14 +131,14 @@
 			path = AudioUnitRecording;
 			sourceTree = "<group>";
 		};
-		1ED48D5426032A910058E0C0 /* GenerateWave */ = {
+		1ED48D5426032A910058E0C0 /* AudioUnitGenerateWave */ = {
 			isa = PBXGroup;
 			children = (
-				1ED48D5526032AC30058E0C0 /* GenerateWave.storyboard */,
-				1ED48D5A26032AF80058E0C0 /* GenerateWaveViewController.swift */,
-				1ED48D5F26032BEC0058E0C0 /* WaveGenerater.swift */,
+				1ED48D5526032AC30058E0C0 /* AudioUnitGenerateWave.storyboard */,
+				1ED48D5A26032AF80058E0C0 /* AudioUnitGenerateWaveViewController.swift */,
+				1ED48D5F26032BEC0058E0C0 /* AudioUnitWaveGenerator.swift */,
 			);
-			path = GenerateWave;
+			path = AudioUnitGenerateWave;
 			sourceTree = "<group>";
 		};
 		1EFB07FE25F1F0B800D5AC6B = {
@@ -285,8 +302,9 @@
 				1EFB081725F1F0B900D5AC6B /* LaunchScreen.storyboard in Resources */,
 				1EFB081425F1F0B900D5AC6B /* Assets.xcassets in Resources */,
 				1EFB081225F1F0B800D5AC6B /* AudioUnitRecording.storyboard in Resources */,
-				1ED48D5626032AC30058E0C0 /* GenerateWave.storyboard in Resources */,
+				1ED48D5626032AC30058E0C0 /* AudioUnitGenerateWave.storyboard in Resources */,
 				1E2C1E8425F49DE300CE5DB1 /* Main.storyboard in Resources */,
+				1E6511A42605DDB000A90802 /* AudioEngeneGenerateWave.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,11 +331,13 @@
 			files = (
 				1EFB080F25F1F0B800D5AC6B /* AudioUnitRecordingViewController.swift in Sources */,
 				1E2C1E6425F49CDA00CE5DB1 /* MenuViewController.swift in Sources */,
-				1ED48D6026032BEC0058E0C0 /* WaveGenerater.swift in Sources */,
-				1ED48D5B26032AF80058E0C0 /* GenerateWaveViewController.swift in Sources */,
+				1ED48D6026032BEC0058E0C0 /* AudioUnitWaveGenerator.swift in Sources */,
+				1ED48D5B26032AF80058E0C0 /* AudioUnitGenerateWaveViewController.swift in Sources */,
 				1E2C1E6325F49CDA00CE5DB1 /* MenuDataSource.swift in Sources */,
 				1E2C1E8E25F4A1CD00CE5DB1 /* AudioWriter.swift in Sources */,
+				1E6511A92605DDC100A90802 /* AudioEngeneGenerateWaveViewController.swift in Sources */,
 				1E2C1E6225F49CDA00CE5DB1 /* MenuItemCell.swift in Sources */,
+				1E6511AE2605DE7400A90802 /* AudioEngeneWaveGenerator.swift in Sources */,
 				1E2C1E8925F4A1A100CE5DB1 /* AudioUnitRecorder.swift in Sources */,
 				1EFB080B25F1F0B800D5AC6B /* AppDelegate.swift in Sources */,
 				1EFB080D25F1F0B800D5AC6B /* SceneDelegate.swift in Sources */,
