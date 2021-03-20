@@ -104,6 +104,7 @@ class Synthesizer {
 
             AudioUnitSetProperty(audioUnit!, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, UInt32(MemoryLayout.size(ofValue: asbd)))
         }
+        initAudioEngene()
         initAudioUnit()
         setRenderCallBack()
         setAudioInputFormat()

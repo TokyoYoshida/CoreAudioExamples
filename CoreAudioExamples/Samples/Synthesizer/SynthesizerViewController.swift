@@ -10,7 +10,7 @@ import UIKit
 class SynthesizerViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     var isPlaying = false
-    let waveGenerator = WaveGenerater()
+    let waveGenerator = Synthesizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
