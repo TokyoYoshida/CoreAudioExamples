@@ -22,7 +22,7 @@ class Synthesizer {
     lazy var sourceNode = AVAudioSourceNode { [self] (_, _, frameCount, audioBufferList) -> OSStatus in
         let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
         for frame in 0..<Int(frameCount) {
-            let sampleVal: Float = sin(Float(frame) * Synthesizer.toneA * 2.0 * Float(Double.pi) / self.sampleRate)
+            let sampleVal: Float = sin(Synthesizer.toneA * 2.0 * Float(Double.pi) * self.time)
             self.time += self.deltaTime
             for buffer in abl {
                 let buf: UnsafeMutableBufferPointer<Float> = UnsafeMutableBufferPointer(buffer)
@@ -105,9 +105,9 @@ class Synthesizer {
             AudioUnitSetProperty(audioUnit!, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &asbd, UInt32(MemoryLayout.size(ofValue: asbd)))
         }
         initAudioEngene()
-        initAudioUnit()
-        setRenderCallBack()
-        setAudioInputFormat()
+//        initAudioUnit()
+//        setRenderCallBack()
+//        setAudioInputFormat()
     }
     
     func start() {
@@ -116,7 +116,7 @@ class Synthesizer {
         audioEngine.attach(sourceNode)
         audioEngine.connect(sourceNode, to: mainMixer!, format: inputFormat!)
         audioEngine.connect(mainMixer!, to: outputNode!, format: nil)
-        mainMixer?.outputVolume = 0
+        mainMixer?.outputVolume = 1
         
         do {
             try audioEngine.start()
@@ -128,6 +128,7 @@ class Synthesizer {
     }
 
     func stop() {
+        audioEngine.stop()
 //        AudioOutputUnitStop(audioUnit!)
     }
     
