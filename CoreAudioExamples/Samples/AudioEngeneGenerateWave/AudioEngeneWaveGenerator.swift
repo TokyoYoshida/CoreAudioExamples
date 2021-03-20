@@ -72,5 +72,6 @@ class AudioEngeneWaveGenerator {
     }
     
     func dispose() {
+        stop()
     }
 }

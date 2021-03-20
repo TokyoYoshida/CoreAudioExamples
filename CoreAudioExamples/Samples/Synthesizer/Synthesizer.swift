@@ -26,6 +26,17 @@ class Synthesizer {
             return audioEngine.mainMixerNode.outputVolume
         }
     }
+    
+    var tone: Float? {
+        set {
+            if let newValue = newValue {
+                oscillator?.tone = newValue
+            }
+        }
+        get {
+            oscillator?.tone
+        }
+    }
 
     lazy var sourceNode = AVAudioSourceNode { [self] (_, _, frameCount, audioBufferList) -> OSStatus in
         let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
@@ -85,25 +96,28 @@ class Synthesizer {
     }
     
     func dispose() {
+        stop()
     }
 }
 
 protocol Oscillator {
+    var tone: Float {get set}
     func signal(time: Float) -> Float
 }
 
 class SinOscillator: Oscillator {
-    let toneA: Float = 440.0
+    var tone: Float = 440.0
     func signal(time: Float) -> Float {
-        sin(toneA * 2.0 * Float(Double.pi) * time)
+        sin(tone * 2.0 * Float(Double.pi) * time)
     }
 }
 
 class TriangleOscillator: Oscillator {
+    var tone: Float = 440
+
     func signal(time: Float) -> Float {
-        let freqency: Double = 440
         let amplitude: Float = 1
-        let periood = 1.0 / freqency
+        let periood = 1.0 / Double(tone)
         let currentTime = fmod(Double(time), periood)
         let value = currentTime / periood
         

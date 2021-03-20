@@ -48,4 +48,11 @@ class SynthesizerViewController: UIViewController {
     @IBAction func movedSlider(_ sender: UISlider) {
         waveGenerator.volume = sender.value
     }
+    
+    @IBAction func movedTone(_ sender: UISlider) {
+        let toneA0: Float = 27.50
+        let toneA5: Float = 880.0
+        
+        waveGenerator.tone = (toneA5-toneA0) * sender.value + toneA0
+    }
 }
