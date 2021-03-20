@@ -1,5 +1,5 @@
 //
-//  SynthesizerViewController.swift
+//  AudioEngeneGenerateWaveViewController.swift
 //  CoreAudioExamples
 //
 //  Created by TokyoYoshida on 2021/03/20.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class SynthesizerViewController: UIViewController {
+class AudioEngeneGenerateWaveViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     var isPlaying = false
-    let waveGenerator = Synthesizer()
+    let waveGenerator = AudioEngeneWaveGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()

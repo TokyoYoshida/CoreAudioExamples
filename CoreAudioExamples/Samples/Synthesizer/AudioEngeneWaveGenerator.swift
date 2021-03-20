@@ -1,5 +1,5 @@
 //
-//  Synthesizer.swift
+//  AudioEngeneWaveGenerator.swift
 //  CoreAudioExamples
 //
 //  Created by TokyoYoshida on 2021/03/20.
@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-class Synthesizer {
+class AudioEngeneWaveGenerator {
     var audioUnit: AudioUnit?
     var audioEngine: AVAudioEngine = AVAudioEngine()
     var sampleRate: Float = 44100.0
@@ -22,7 +22,7 @@ class Synthesizer {
     lazy var sourceNode = AVAudioSourceNode { [self] (_, _, frameCount, audioBufferList) -> OSStatus in
         let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
         for frame in 0..<Int(frameCount) {
-            let sampleVal: Float = sin(Synthesizer.toneA * 2.0 * Float(Double.pi) * self.time)
+            let sampleVal: Float = sin(AudioEngeneWaveGenerator.toneA * 2.0 * Float(Double.pi) * self.time)
             self.time += self.deltaTime
             for buffer in abl {
                 let buf: UnsafeMutableBufferPointer<Float> = UnsafeMutableBufferPointer(buffer)

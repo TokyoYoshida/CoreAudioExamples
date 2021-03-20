@@ -24,19 +24,19 @@ struct MenuItem {
 class MenuViewModel {
     private let dataSource = [
         MenuItem (
-            title: "Audio Unit Recording",
-            description: "Sound recording using Audio Unit.",
+            title: "AudioUnit Recording",
+            description: "Sound recording using AudioUnit.",
             prefix: "AudioUnitRecording"
         ),
         MenuItem (
-            title: "Audio Unit Generate Wave",
-            description: "Generate sin wave using Audio Unit.",
+            title: "AudioUnit Generate Wave",
+            description: "Generate sin wave using AudioUnit.",
             prefix: "AudioUnitGenerateWave"
         ),
         MenuItem (
-            title: "Synthesizer",
-            description: "Synthesizer",
-            prefix: "Synthesizer"
+            title: "AVAudioEngene Generate Wave",
+            description: "Generate sin wave using AVAudioEngene.",
+            prefix: "AudioEngeneGenerateWave"
         )
     ]
     
