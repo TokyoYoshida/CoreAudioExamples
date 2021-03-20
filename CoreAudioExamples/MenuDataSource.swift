@@ -32,6 +32,11 @@ class MenuViewModel {
             title: "GenerateWave",
             description: "Generate Sin Wave.",
             prefix: "GenerateWave"
+        ),
+        MenuItem (
+            title: "Synthesizer",
+            description: "Synthesizer",
+            prefix: "Synthesizer"
         )
     ]
     

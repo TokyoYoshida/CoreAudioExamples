@@ -13,6 +13,8 @@
 		1E2C1E8425F49DE300CE5DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8225F49DE300CE5DB1 /* Main.storyboard */; };
 		1E2C1E8925F4A1A100CE5DB1 /* AudioUnitRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8825F4A1A100CE5DB1 /* AudioUnitRecorder.swift */; };
 		1E2C1E8E25F4A1CD00CE5DB1 /* AudioWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E8D25F4A1CD00CE5DB1 /* AudioWriter.swift */; };
+		1E6511A42605DDB000A90802 /* Synthesizer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E6511A32605DDB000A90802 /* Synthesizer.storyboard */; };
+		1E6511A92605DDC100A90802 /* SynthesizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6511A82605DDC100A90802 /* SynthesizerViewController.swift */; };
 		1ED48D5626032AC30058E0C0 /* GenerateWave.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1ED48D5526032AC30058E0C0 /* GenerateWave.storyboard */; };
 		1ED48D5B26032AF80058E0C0 /* GenerateWaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED48D5A26032AF80058E0C0 /* GenerateWaveViewController.swift */; };
 		1ED48D6026032BEC0058E0C0 /* WaveGenerater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED48D5F26032BEC0058E0C0 /* WaveGenerater.swift */; };
@@ -50,6 +52,8 @@
 		1E2C1E8325F49DE300CE5DB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../../ExampleOfiOSLiDAR/ExampleOfiOSLiDAR/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E2C1E8825F4A1A100CE5DB1 /* AudioUnitRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitRecorder.swift; sourceTree = "<group>"; };
 		1E2C1E8D25F4A1CD00CE5DB1 /* AudioWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWriter.swift; sourceTree = "<group>"; };
+		1E6511A32605DDB000A90802 /* Synthesizer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Synthesizer.storyboard; sourceTree = "<group>"; };
+		1E6511A82605DDC100A90802 /* SynthesizerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerViewController.swift; sourceTree = "<group>"; };
 		1ED48D5526032AC30058E0C0 /* GenerateWave.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GenerateWave.storyboard; sourceTree = "<group>"; };
 		1ED48D5A26032AF80058E0C0 /* GenerateWaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateWaveViewController.swift; sourceTree = "<group>"; };
 		1ED48D5F26032BEC0058E0C0 /* WaveGenerater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveGenerater.swift; sourceTree = "<group>"; };
@@ -99,8 +103,18 @@
 			children = (
 				1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */,
 				1ED48D5426032A910058E0C0 /* GenerateWave */,
+				1E65119A2605DD5600A90802 /* Synthesizer */,
 			);
 			path = Samples;
+			sourceTree = "<group>";
+		};
+		1E65119A2605DD5600A90802 /* Synthesizer */ = {
+			isa = PBXGroup;
+			children = (
+				1E6511A32605DDB000A90802 /* Synthesizer.storyboard */,
+				1E6511A82605DDC100A90802 /* SynthesizerViewController.swift */,
+			);
+			path = Synthesizer;
 			sourceTree = "<group>";
 		};
 		1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */ = {
@@ -287,6 +301,7 @@
 				1EFB081225F1F0B800D5AC6B /* AudioUnitRecording.storyboard in Resources */,
 				1ED48D5626032AC30058E0C0 /* GenerateWave.storyboard in Resources */,
 				1E2C1E8425F49DE300CE5DB1 /* Main.storyboard in Resources */,
+				1E6511A42605DDB000A90802 /* Synthesizer.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +332,7 @@
 				1ED48D5B26032AF80058E0C0 /* GenerateWaveViewController.swift in Sources */,
 				1E2C1E6325F49CDA00CE5DB1 /* MenuDataSource.swift in Sources */,
 				1E2C1E8E25F4A1CD00CE5DB1 /* AudioWriter.swift in Sources */,
+				1E6511A92605DDC100A90802 /* SynthesizerViewController.swift in Sources */,
 				1E2C1E6225F49CDA00CE5DB1 /* MenuItemCell.swift in Sources */,
 				1E2C1E8925F4A1A100CE5DB1 /* AudioUnitRecorder.swift in Sources */,
 				1EFB080B25F1F0B800D5AC6B /* AppDelegate.swift in Sources */,
