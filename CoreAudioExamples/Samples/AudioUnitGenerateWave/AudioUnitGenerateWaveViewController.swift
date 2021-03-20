@@ -10,7 +10,7 @@ import UIKit
 class GenerateWaveViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     var isPlaying = false
-    let waveGenerator = WaveGenerater()
+    let waveGenerator = AudioUnitWaveGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -1,5 +1,5 @@
 //
-//  WaveGenerater.swift
+//  AudioUnitWaveGenerator.swift
 //  CoreAudioExamples
 //
 //  Created by TokyoYoshida on 2021/03/18.
@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-class WaveGenerater {
+class AudioUnitWaveGenerator {
     var audioUnit: AudioUnit?
     static let sampleRate: Float = 44100.0
     static let toneA: Float = 440.0
@@ -25,7 +25,7 @@ class WaveGenerater {
         inNumberFrames: UInt32,
         ioData: UnsafeMutablePointer<AudioBufferList>?) -> OSStatus in
         
-        let refData = unsafeBitCast( inRefCon, to: WaveGenerater.RefConData.self)
+        let refData = unsafeBitCast( inRefCon, to: AudioUnitWaveGenerator.RefConData.self)
 
         let abl = UnsafeMutableAudioBufferListPointer(ioData)
         let capacity = Int(abl![0].mDataByteSize) / MemoryLayout<Float>.size
@@ -56,14 +56,14 @@ class WaveGenerater {
             AudioUnitInitialize(audioUnit!)
         }
         func setRenderCallBack() {
-            var callBackStruct = AURenderCallbackStruct(inputProc: renderCallBack, inputProcRefCon: Unmanaged<WaveGenerater.RefConData>.passRetained(refData).toOpaque() )
+            var callBackStruct = AURenderCallbackStruct(inputProc: renderCallBack, inputProcRefCon: Unmanaged<AudioUnitWaveGenerator.RefConData>.passRetained(refData).toOpaque() )
             
             AudioUnitSetProperty(audioUnit!, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &callBackStruct, UInt32(MemoryLayout.size(ofValue: callBackStruct)))
         }
         func setAudioInputFormat() {
             var asbd = AudioStreamBasicDescription()
             
-            asbd.mSampleRate = Float64(WaveGenerater.sampleRate)
+            asbd.mSampleRate = Float64(AudioUnitWaveGenerator.sampleRate)
             asbd.mFormatID = kAudioFormatLinearPCM
             asbd.mFormatFlags = kAudioFormatFlagIsFloat
             asbd.mChannelsPerFrame = 1
