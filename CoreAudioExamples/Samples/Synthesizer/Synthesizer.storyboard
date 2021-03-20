@@ -19,6 +19,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x31-MH-2OK">
                                 <rect key="frame" x="192" y="433" width="30" height="30"/>
                                 <state key="normal" title="Play"/>
+                                <connections>
+                                    <action selector="tappedPlayButton:" destination="LhE-iU-R8X" eventType="touchUpInside" id="Zta-Ww-d3s"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rJH-w7-JxH"/>
@@ -28,6 +31,9 @@
                             <constraint firstItem="x31-MH-2OK" firstAttribute="centerY" secondItem="BtX-RH-der" secondAttribute="centerY" id="g8c-v3-Lt2"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="playButton" destination="x31-MH-2OK" id="4gZ-i5-G3Z"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EkF-tc-7dC" sceneMemberID="firstResponder"/>
             </objects>

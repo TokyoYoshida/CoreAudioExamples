@@ -8,22 +8,38 @@
 import UIKit
 
 class SynthesizerViewController: UIViewController {
-
+    @IBOutlet weak var playButton: UIButton!
+    var isPlaying = false
+    let waveGenerator = WaveGenerater()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        waveGenerator.prepare()
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        waveGenerator.dispose()
     }
-    */
 
+    @IBAction func tappedPlayButton(_ sender: Any) {
+        func start() {
+            playButton.setTitle("Stop", for: .normal)
+            waveGenerator.start()
+        }
+        func stop() {
+            playButton.setTitle("Play", for: .normal)
+            waveGenerator.stop()
+        }
+        if isPlaying {
+            isPlaying = false
+            stop()
+        } else {
+            isPlaying = true
+            start()
+        }
+    }
 }
