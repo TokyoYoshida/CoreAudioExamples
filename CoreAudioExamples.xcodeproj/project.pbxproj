@@ -105,19 +105,19 @@
 			children = (
 				1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */,
 				1ED48D5426032A910058E0C0 /* AudioUnitGenerateWave */,
-				1E65119A2605DD5600A90802 /* Synthesizer */,
+				1E65119A2605DD5600A90802 /* AudioEngeneGenerateWave */,
 			);
 			path = Samples;
 			sourceTree = "<group>";
 		};
-		1E65119A2605DD5600A90802 /* Synthesizer */ = {
+		1E65119A2605DD5600A90802 /* AudioEngeneGenerateWave */ = {
 			isa = PBXGroup;
 			children = (
 				1E6511A32605DDB000A90802 /* AudioEngeneGenerateWave.storyboard */,
 				1E6511A82605DDC100A90802 /* AudioEngeneGenerateWaveViewController.swift */,
 				1E6511AD2605DE7400A90802 /* AudioEngeneWaveGenerator.swift */,
 			);
-			path = Synthesizer;
+			path = AudioEngeneGenerateWave;
 			sourceTree = "<group>";
 		};
 		1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */ = {
