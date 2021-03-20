@@ -18,11 +18,13 @@ class Synthesizer {
     var mainMixer: AVAudioMixerNode?
     var outputNode: AVAudioOutputNode?
     var format: AVAudioFormat?
+    var oscillator: Oscillator?
 
     lazy var sourceNode = AVAudioSourceNode { [self] (_, _, frameCount, audioBufferList) -> OSStatus in
         let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
+        guard let oscillator = self.oscillator else {fatalError("Oscillator is nil")}
         for frame in 0..<Int(frameCount) {
-            let sampleVal: Float = sin(Synthesizer.toneA * 2.0 * Float(Double.pi) * self.time)
+            let sampleVal: Float = oscillator.signal(time: self.time)
             self.time += self.deltaTime
             for buffer in abl {
                 let buf: UnsafeMutableBufferPointer<Float> = UnsafeMutableBufferPointer(buffer)
@@ -66,11 +68,25 @@ class Synthesizer {
             fatalError("Coud not start engine: \(error.localizedDescription)")
         }
     }
+    
+    func setOscillator(oscillator: Oscillator) {
+        self.oscillator = oscillator
+    }
 
     func stop() {
         audioEngine.stop()
     }
     
     func dispose() {
+    }
+}
+
+protocol Oscillator {
+    func signal(time: Float) -> Float
+}
+
+class SinOscillator: Oscillator {
+    func signal(time: Float) -> Float {
+        sin(Synthesizer.toneA * 2.0 * Float(Double.pi) * time)
     }
 }
