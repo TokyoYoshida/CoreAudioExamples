@@ -173,21 +173,25 @@ protocol Effector {
 }
 
 class DelayEffector: Effector {
-    var delayCount = 100
-    lazy var buffer = RingBuffer<Float>(delayCount)
+    var delayCount = 10000
+    lazy var buffer = RingBuffer<Float>(delayCount + 1)
     var index: Int = 0
 
     func signal(waveValue: Float) -> Float {
-        if !buffer.enqueue(waveValue) {
-            fatalError("Cannot enqueue buffer.")
+        func enqueue(_ value: Float) {
+            if !buffer.enqueue(value) {
+                fatalError("Cannot enqueue buffer.")
+            }
         }
         if delayCount > 0 {
             delayCount -= 1
+            enqueue(waveValue)
             return waveValue
         }
         if let delayValue = buffer.dequeue() {
-            return waveValue + 0.01
-//            return waveValue + delayValue/10
+            let ret = waveValue + delayValue*0.8
+            enqueue(ret)
+            return ret
         }
         fatalError("Cannot dequeue buffer.")
     }
