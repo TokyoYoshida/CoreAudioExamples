@@ -211,6 +211,29 @@ class DelayEffector: Effector {
     }
 }
 
+class PhaserEffector: Effector {
+    var delayCount = 2_100
+    lazy var buffer = RingBuffer<Float>(delayCount + 1)
+    var index: Int = 0
+
+    func signal(waveValue: Float) -> Float {
+        func enqueue(_ value: Float) {
+            if !buffer.enqueue(value) {
+                fatalError("Cannot enqueue buffer.")
+            }
+        }
+        enqueue(waveValue)
+        if delayCount > 0 {
+            delayCount -= 1
+            return waveValue
+        }
+        if let delayValue = buffer.dequeue() {
+            let ret = waveValue + delayValue
+            return ret
+        }
+        fatalError("Cannot dequeue buffer.")
+    }
+}
 
 protocol Mixer: AudioSource {
     func addEffector(effector: Effector)
