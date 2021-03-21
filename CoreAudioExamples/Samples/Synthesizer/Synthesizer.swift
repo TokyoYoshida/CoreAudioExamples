@@ -236,10 +236,10 @@ class PhaserEffector: Effector {
 }
 
 class FlangerEffector: Effector {
-    var delayCount = 2_100
+    var delayCount = 210
     lazy var buffer = RingBuffer<Float>(delayCount + 1)
     var index: Int = 0
-    var tone: Float = 10.0
+    var tone: Float = 200.0
 
     func signal(waveValue: Float, time: Float) -> Float {
         func enqueue(_ value: Float) {
@@ -248,7 +248,7 @@ class FlangerEffector: Effector {
             }
         }
         func lfo(_ waveValue: Float, time: Float) -> Float{
-            return waveValue + sin(tone * 2.0 * Float(Double.pi) * time)
+            return waveValue * sin(tone * 2.0 * Float(Double.pi) * time)
         }
         enqueue(waveValue)
         if delayCount > 0 {
