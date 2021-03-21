@@ -124,7 +124,7 @@ class SinOscillator: Oscillator {
     }
     
     func calcTone() {
-        currentTone += (targetTone - currentTone) / 100000
+        currentTone += (targetTone - currentTone) / 1000000
     }
 }
 
