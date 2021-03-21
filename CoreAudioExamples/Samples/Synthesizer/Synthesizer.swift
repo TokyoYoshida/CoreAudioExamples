@@ -16,7 +16,7 @@ class Synthesizer {
     private var mainMixer: AVAudioMixerNode?
     private var outputNode: AVAudioOutputNode?
     private var format: AVAudioFormat?
-    private var oscillator: Oscillator?
+    private var audioSource: AudioSource?
     
     var volume: Float {
         set {
@@ -30,17 +30,17 @@ class Synthesizer {
     var tone: Float? {
         set {
             if let newValue = newValue {
-                oscillator?.tone = newValue
+                audioSource?.tone = newValue
             }
         }
         get {
-            oscillator?.tone
+            audioSource?.tone
         }
     }
 
     lazy var sourceNode = AVAudioSourceNode { [self] (_, _, frameCount, audioBufferList) -> OSStatus in
         let abl = UnsafeMutableAudioBufferListPointer(audioBufferList)
-        guard let oscillator = self.oscillator else {fatalError("Oscillator is nil")}
+        guard let oscillator = self.audioSource else {fatalError("Oscillator is nil")}
         for frame in 0..<Int(frameCount) {
             let sampleVal: Float = oscillator.signal(time: self.time)
             self.time += self.deltaTime
@@ -87,8 +87,8 @@ class Synthesizer {
         }
     }
     
-    func setOscillator(oscillator: Oscillator) {
-        self.oscillator = oscillator
+    func setAudioSource(audioSource: AudioSource) {
+        self.audioSource = audioSource
     }
 
     func stop() {
@@ -100,10 +100,12 @@ class Synthesizer {
     }
 }
 
-protocol Oscillator {
+protocol AudioSource {
     var tone: Float {get set}
     func signal(time: Float) -> Float
 }
+
+protocol Oscillator: AudioSource {}
 
 class SinOscillator: Oscillator {
     var tone: Float = 440.0
@@ -184,8 +186,40 @@ class DelayEffector: Effector {
             return waveValue
         }
         if let delayValue = buffer.dequeue() {
-            return waveValue + delayValue/10
+            return waveValue + 0.01
+//            return waveValue + delayValue/10
         }
         fatalError("Cannot dequeue buffer.")
+    }
+}
+
+
+protocol Mixer: AudioSource {
+    func addEffector(effector: Effector)
+}
+
+class AudioMixer: Mixer {
+    var oscillator: Oscillator
+    var effectors: [Effector] = []
+    var tone: Float {
+        set {
+            oscillator.tone = newValue
+        }
+        get {
+            oscillator.tone
+        }
+    }
+    init(_ oscillator: Oscillator) {
+        self.oscillator = oscillator
+    }
+    func signal(time: Float) -> Float {
+        var waveValue = oscillator.signal(time: time)
+        for effector in effectors {
+            waveValue = effector.signal(waveValue: waveValue)
+        }
+        return waveValue
+    }
+    func addEffector(effector: Effector) {
+        effectors.append(effector)
     }
 }

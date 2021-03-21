@@ -28,7 +28,7 @@ class SynthesizerViewController: UIViewController {
     @IBAction func tappedPlayButton(_ sender: Any) {
         func start() {
             playButton.setTitle("Stop", for: .normal)
-            waveGenerator.setOscillator(oscillator: TriangleOscillator())
+            waveGenerator.setAudioSource(audioSource: TriangleOscillator())
             waveGenerator.start()
             waveGenerator.volume = 0.5
         }
