@@ -183,7 +183,7 @@ class RingBuffer<T> {
 }
 
 protocol Effector {
-    func signal(waveValue: Float) -> Float
+    func signal(waveValue: Float, time: Float) -> Float
 }
 
 class DelayEffector: Effector {
@@ -191,7 +191,7 @@ class DelayEffector: Effector {
     lazy var buffer = RingBuffer<Float>(delayCount + 1)
     var index: Int = 0
 
-    func signal(waveValue: Float) -> Float {
+    func signal(waveValue: Float, time: Float) -> Float {
         func enqueue(_ value: Float) {
             if !buffer.enqueue(value) {
                 fatalError("Cannot enqueue buffer.")
@@ -216,7 +216,7 @@ class PhaserEffector: Effector {
     lazy var buffer = RingBuffer<Float>(delayCount + 1)
     var index: Int = 0
 
-    func signal(waveValue: Float) -> Float {
+    func signal(waveValue: Float, time: Float) -> Float {
         func enqueue(_ value: Float) {
             if !buffer.enqueue(value) {
                 fatalError("Cannot enqueue buffer.")
@@ -229,6 +229,34 @@ class PhaserEffector: Effector {
         }
         if let delayValue = buffer.dequeue() {
             let ret = waveValue + delayValue
+            return ret
+        }
+        fatalError("Cannot dequeue buffer.")
+    }
+}
+
+class FlangerEffector: Effector {
+    var delayCount = 2_100
+    lazy var buffer = RingBuffer<Float>(delayCount + 1)
+    var index: Int = 0
+    var tone: Float = 10.0
+
+    func signal(waveValue: Float, time: Float) -> Float {
+        func enqueue(_ value: Float) {
+            if !buffer.enqueue(value) {
+                fatalError("Cannot enqueue buffer.")
+            }
+        }
+        func lfo(_ waveValue: Float, time: Float) -> Float{
+            return waveValue + sin(tone * 2.0 * Float(Double.pi) * time)
+        }
+        enqueue(waveValue)
+        if delayCount > 0 {
+            delayCount -= 1
+            return waveValue
+        }
+        if let delayValue = buffer.dequeue() {
+            let ret = waveValue + lfo(delayValue, time: time)
             return ret
         }
         fatalError("Cannot dequeue buffer.")
@@ -256,7 +284,7 @@ class AudioMixer: Mixer {
     func signal(time: Float) -> Float {
         var waveValue = oscillator.signal(time: time)
         for effector in effectors {
-            waveValue = effector.signal(waveValue: waveValue)
+            waveValue = effector.signal(waveValue: waveValue, time: time)
         }
         return waveValue
     }
