@@ -187,7 +187,7 @@ protocol Effector {
 }
 
 class DelayEffector: Effector {
-    var delayCount = 10000
+    var delayCount = 22_100
     lazy var buffer = RingBuffer<Float>(delayCount + 1)
     var index: Int = 0
 
@@ -203,7 +203,7 @@ class DelayEffector: Effector {
             return waveValue
         }
         if let delayValue = buffer.dequeue() {
-            let ret = waveValue + delayValue*0.8
+            let ret = waveValue + delayValue*0.4
             enqueue(ret)
             return ret
         }
