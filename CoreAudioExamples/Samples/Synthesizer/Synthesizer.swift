@@ -108,9 +108,23 @@ protocol AudioSource {
 protocol Oscillator: AudioSource {}
 
 class SinOscillator: Oscillator {
-    var tone: Float = 440.0
+    var currentTone: Float = 440.0
+    var targetTone: Float = 440.0
+    var tone: Float {
+        set {
+            targetTone = newValue
+        }
+        get {
+            currentTone
+        }
+    }
     func signal(time: Float) -> Float {
-        sin(tone * 2.0 * Float(Double.pi) * time)
+        calcTone()
+        return sin(currentTone * 2.0 * Float(Double.pi) * time)
+    }
+    
+    func calcTone() {
+        currentTone += (targetTone - currentTone) / 100000
     }
 }
 
