@@ -263,6 +263,25 @@ class FlangerEffector: Effector {
     }
 }
 
+class DistortionEffector: Effector {
+    var delayCount = 210
+    lazy var buffer = RingBuffer<Float>(delayCount + 1)
+    var index: Int = 0
+    var tone: Float = 200.0
+    var amplificationLevel: Float = 10
+    var threshold: Float = 0.9
+
+    func signal(waveValue: Float, time: Float) -> Float {
+        let result = waveValue * amplificationLevel
+        if result > threshold {
+            return threshold
+        }
+        if result < -threshold {
+            return -threshold
+        }
+        return result
+    }
+}
 protocol Mixer: AudioSource {
     func addEffector(effector: Effector)
 }
