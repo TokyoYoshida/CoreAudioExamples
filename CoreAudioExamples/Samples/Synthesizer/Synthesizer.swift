@@ -134,3 +134,58 @@ class TriangleOscillator: Oscillator {
         return amplitude * Float(result)
     }
 }
+
+class RingBuffer<T> {
+    let max: Int
+    var data: [T?]
+    var head: Int = 0
+    var num: Int = 0
+    
+    init(_ max: Int) {
+        self.max = max
+        self.data = Array<T?>(repeating: nil, count: max)
+    }
+    
+    func enqueue(_ data: T) -> Bool {
+        guard num < max else { return false }
+            
+        self.data[(head + num) % max] = data
+        num += 1
+        return true
+    }
+    
+    func dequeue() -> T? {
+        guard num > 0 else { return nil }
+        
+        let ret = self.data[head]
+        data[head] = nil
+        num -= 1
+        head = (head + 1) % max
+ 
+        return ret
+    }
+}
+
+protocol Effector {
+    func signal(waveValue: Float) -> Float
+}
+
+class DelayEffector: Effector {
+    var delayCount = 100
+    lazy var buffer = RingBuffer<Float>(delayCount)
+    var index: Int = 0
+
+    func signal(waveValue: Float) -> Float {
+        if !buffer.enqueue(waveValue) {
+            fatalError("Cannot enqueue buffer.")
+        }
+        if delayCount > 0 {
+            delayCount -= 1
+            return waveValue
+        }
+        if let delayValue = buffer.dequeue() {
+            return waveValue + delayValue/10
+        }
+        fatalError("Cannot dequeue buffer.")
+    }
+}
