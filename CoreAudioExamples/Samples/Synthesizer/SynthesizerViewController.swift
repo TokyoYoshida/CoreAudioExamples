@@ -18,7 +18,6 @@ class SynthesizerViewController: UIViewController {
     var isPlaying = false
     let waveGenerator = Synthesizer()
     var mixer = AudioMixer(TriangleOscillator())
-    var effectorTable:[Int:Int] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,30 +74,24 @@ class SynthesizerViewController: UIViewController {
     }
     
     @IBAction func tappedEffector(_ sender: UISwitch) {
-        func addEffector(_ tag:Int, _ effector: Effector) {
-            let index = mixer.addEffector(effector: effector)
-            effectorTable[tag] = index
-        }
-        func removeEffector(_ tag:Int) {
-            guard let index = effectorTable[tag] else { fatalError("Wrong tag.") }
-            mixer.removeEffector(at: index)
-        }
-        let effector = EffectorSwitch(rawValue: sender.tag)
-        switch effector {
+        let selectedSwitch = EffectorSwitch(rawValue: sender.tag)
+        var effector: Effector
+        switch selectedSwitch {
         case .Delay:
-            if sender.isOn {
-                addEffector(sender.tag, DelayEffector())
-            } else {
-                removeEffector(sender.tag)
-            }
+            effector = DelayEffector()
         case .Phaser:
-            break
+            effector = PhaserEffector()
         case .Flanger:
-            break
+            effector = FlangerEffector()
         case .Distortion:
-            break
+            effector = DistortionEffector()
         case .none:
-            break
+            return
+        }
+        if sender.isOn {
+            mixer.addEffector(index: sender.tag, effector: effector)
+        } else {
+            mixer.removeEffector(at: sender.tag)
         }
     }
 }
