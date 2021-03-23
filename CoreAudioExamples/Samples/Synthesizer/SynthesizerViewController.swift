@@ -11,7 +11,8 @@ class SynthesizerViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     var isPlaying = false
     let waveGenerator = Synthesizer()
-    
+    var mixer = AudioMixer(TriangleOscillator())
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,7 +29,6 @@ class SynthesizerViewController: UIViewController {
     @IBAction func tappedPlayButton(_ sender: Any) {
         func start() {
             playButton.setTitle("Stop", for: .normal)
-            let mixer = AudioMixer(TriangleOscillator())
             mixer.addEffector(effector: DistortionEffector())
             mixer.addEffector(effector: FlangerEffector())
             mixer.addEffector(effector: DelayEffector())
@@ -59,4 +59,13 @@ class SynthesizerViewController: UIViewController {
         
         waveGenerator.tone = (toneA5-toneA0) * sender.value + toneA0
     }
+    
+    @IBAction func tappedOscillator(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            mixer = AudioMixer(SinOscillator())
+        } else {
+            mixer = AudioMixer(TriangleOscillator())
+        }
+    }
+    
 }
