@@ -107,7 +107,7 @@ protocol AudioSource {
 
 protocol Oscillator: AudioSource {}
 
-class SinOscillator: Oscillator {
+class ToneAdjuster: Oscillator {
     var currentTone: Float = 440.0
     var targetTone: Float = 440.0
     var tone: Float {
@@ -118,22 +118,30 @@ class SinOscillator: Oscillator {
             currentTone
         }
     }
+
     func signal(time: Float) -> Float {
-        calcTone()
-        return sin(currentTone * 2.0 * Float(Double.pi) * time)
+        return 0
     }
-    
-    func calcTone() {
+
+    func updateTone() {
         currentTone += (targetTone - currentTone) / 1000000
     }
 }
 
-class TriangleOscillator: Oscillator {
-    var tone: Float = 440
+class SinOscillator: ToneAdjuster {
+    override func signal(time: Float) -> Float {
+        updateTone()
+        return sin(currentTone * 2.0 * Float(Double.pi) * time)
+    }
+    
+}
 
-    func signal(time: Float) -> Float {
+class TriangleOscillator: ToneAdjuster {
+    override func signal(time: Float) -> Float {
+        updateTone()
+
         let amplitude: Float = 1
-        let periood = 1.0 / Double(tone)
+        let periood = 1.0 / Double(currentTone)
         let currentTime = fmod(Double(time), periood)
         let value = currentTime / periood
         
@@ -268,7 +276,7 @@ class DistortionEffector: Effector {
     lazy var buffer = RingBuffer<Float>(delayCount + 1)
     var index: Int = 0
     var tone: Float = 200.0
-    var amplificationLevel: Float = 10
+    var amplificationLevel: Float = 1.5
     var threshold: Float = 0.9
 
     func signal(waveValue: Float, time: Float) -> Float {
