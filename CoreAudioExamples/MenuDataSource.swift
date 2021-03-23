@@ -37,6 +37,11 @@ class MenuViewModel {
             title: "AVAudioEngene Generate Wave",
             description: "Generate sin wave using AVAudioEngene.",
             prefix: "AudioEngeneGenerateWave"
+        ),
+        MenuItem (
+            title: "Synthesizer",
+            description: "Synthesizer using AVAudioEngene.",
+            prefix: "Synthesizer"
         )
     ]
     

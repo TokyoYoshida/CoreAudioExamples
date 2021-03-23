@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E1889DF2605ED6A0068E337 /* Synthesizer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E1889DE2605ED6A0068E337 /* Synthesizer.storyboard */; };
+		1E1889E42605ED740068E337 /* SynthesizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1889E32605ED740068E337 /* SynthesizerViewController.swift */; };
+		1E1889E92605ED790068E337 /* Synthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1889E82605ED790068E337 /* Synthesizer.swift */; };
 		1E2C1E6225F49CDA00CE5DB1 /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E5F25F49CDA00CE5DB1 /* MenuItemCell.swift */; };
 		1E2C1E6325F49CDA00CE5DB1 /* MenuDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E6025F49CDA00CE5DB1 /* MenuDataSource.swift */; };
 		1E2C1E6425F49CDA00CE5DB1 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C1E6125F49CDA00CE5DB1 /* MenuViewController.swift */; };
@@ -47,6 +50,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E1889DE2605ED6A0068E337 /* Synthesizer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Synthesizer.storyboard; sourceTree = "<group>"; };
+		1E1889E32605ED740068E337 /* SynthesizerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizerViewController.swift; sourceTree = "<group>"; };
+		1E1889E82605ED790068E337 /* Synthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synthesizer.swift; sourceTree = "<group>"; };
 		1E2C1E5F25F49CDA00CE5DB1 /* MenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		1E2C1E6025F49CDA00CE5DB1 /* MenuDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuDataSource.swift; sourceTree = "<group>"; };
 		1E2C1E6125F49CDA00CE5DB1 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -100,24 +106,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E1889DD2605ED2E0068E337 /* Synthesizer */ = {
+			isa = PBXGroup;
+			children = (
+				1E1889DE2605ED6A0068E337 /* Synthesizer.storyboard */,
+				1E1889E32605ED740068E337 /* SynthesizerViewController.swift */,
+				1E1889E82605ED790068E337 /* Synthesizer.swift */,
+			);
+			path = Synthesizer;
+			sourceTree = "<group>";
+		};
 		1E2C1E6D25F49CF000CE5DB1 /* Samples */ = {
 			isa = PBXGroup;
 			children = (
 				1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */,
 				1ED48D5426032A910058E0C0 /* AudioUnitGenerateWave */,
-				1E65119A2605DD5600A90802 /* Synthesizer */,
+				1E65119A2605DD5600A90802 /* AudioEngeneGenerateWave */,
+				1E1889DD2605ED2E0068E337 /* Synthesizer */,
 			);
 			path = Samples;
 			sourceTree = "<group>";
 		};
-		1E65119A2605DD5600A90802 /* Synthesizer */ = {
+		1E65119A2605DD5600A90802 /* AudioEngeneGenerateWave */ = {
 			isa = PBXGroup;
 			children = (
 				1E6511A32605DDB000A90802 /* AudioEngeneGenerateWave.storyboard */,
 				1E6511A82605DDC100A90802 /* AudioEngeneGenerateWaveViewController.swift */,
 				1E6511AD2605DE7400A90802 /* AudioEngeneWaveGenerator.swift */,
 			);
-			path = Synthesizer;
+			path = AudioEngeneGenerateWave;
 			sourceTree = "<group>";
 		};
 		1ED48D5326032A7D0058E0C0 /* AudioUnitRecording */ = {
@@ -300,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EFB081725F1F0B900D5AC6B /* LaunchScreen.storyboard in Resources */,
+				1E1889DF2605ED6A0068E337 /* Synthesizer.storyboard in Resources */,
 				1EFB081425F1F0B900D5AC6B /* Assets.xcassets in Resources */,
 				1EFB081225F1F0B800D5AC6B /* AudioUnitRecording.storyboard in Resources */,
 				1ED48D5626032AC30058E0C0 /* AudioUnitGenerateWave.storyboard in Resources */,
@@ -329,9 +347,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E1889E92605ED790068E337 /* Synthesizer.swift in Sources */,
 				1EFB080F25F1F0B800D5AC6B /* AudioUnitRecordingViewController.swift in Sources */,
 				1E2C1E6425F49CDA00CE5DB1 /* MenuViewController.swift in Sources */,
 				1ED48D6026032BEC0058E0C0 /* AudioUnitWaveGenerator.swift in Sources */,
+				1E1889E42605ED740068E337 /* SynthesizerViewController.swift in Sources */,
 				1ED48D5B26032AF80058E0C0 /* AudioUnitGenerateWaveViewController.swift in Sources */,
 				1E2C1E6325F49CDA00CE5DB1 /* MenuDataSource.swift in Sources */,
 				1E2C1E8E25F4A1CD00CE5DB1 /* AudioWriter.swift in Sources */,
