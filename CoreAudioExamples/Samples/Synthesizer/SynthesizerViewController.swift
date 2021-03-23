@@ -8,10 +8,17 @@
 import UIKit
 
 class SynthesizerViewController: UIViewController {
+    enum EffectorSwitch: Int {
+        case Delay = 0
+        case Phaser
+        case Flanger
+        case Distortion
+    }
     @IBOutlet weak var playButton: UIButton!
     var isPlaying = false
     let waveGenerator = Synthesizer()
     var mixer = AudioMixer(TriangleOscillator())
+    var effectorTable:[Int:Int] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +36,8 @@ class SynthesizerViewController: UIViewController {
     @IBAction func tappedPlayButton(_ sender: Any) {
         func start() {
             playButton.setTitle("Stop", for: .normal)
-            mixer.addEffector(effector: DistortionEffector())
-            mixer.addEffector(effector: FlangerEffector())
-            mixer.addEffector(effector: DelayEffector())
+//            mixer.addEffector(effector: FlangerEffector())
+//            mixer.addEffector(effector: DelayEffector())
             waveGenerator.setAudioSource(audioSource: mixer)
             waveGenerator.start()
             waveGenerator.volume = 0.5
@@ -62,10 +68,37 @@ class SynthesizerViewController: UIViewController {
     
     @IBAction func tappedOscillator(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            mixer = AudioMixer(SinOscillator())
+            mixer.setOscillator(oscillator: SinOscillator())
         } else {
-            mixer = AudioMixer(TriangleOscillator())
+            mixer.setOscillator(oscillator: TriangleOscillator())
         }
     }
     
+    @IBAction func tappedEffector(_ sender: UISwitch) {
+        func addEffector(_ tag:Int, _ effector: Effector) {
+            let index = mixer.addEffector(effector: effector)
+            effectorTable[tag] = index
+        }
+        func removeEffector(_ tag:Int) {
+            guard let index = effectorTable[tag] else { fatalError("Wrong tag.") }
+            mixer.removeEffector(at: index)
+        }
+        let effector = EffectorSwitch(rawValue: sender.tag)
+        switch effector {
+        case .Delay:
+            if sender.isOn {
+                addEffector(sender.tag, DelayEffector())
+            } else {
+                removeEffector(sender.tag)
+            }
+        case .Phaser:
+            break
+        case .Flanger:
+            break
+        case .Distortion:
+            break
+        case .none:
+            break
+        }
+    }
 }

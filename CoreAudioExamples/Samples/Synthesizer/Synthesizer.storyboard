@@ -109,8 +109,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8A-mx-hVe">
                                                 <rect key="frame" x="85" y="0.0" width="175" height="50"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1o2-B5-aoI">
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1o2-B5-aoI">
                                                         <rect key="frame" x="63" y="9.5" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="tappedEffector:" destination="jhD-Mz-VdU" eventType="valueChanged" id="pAU-Qm-45f"/>
+                                                        </connections>
                                                     </switch>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -136,8 +139,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SzU-X0-uj4">
                                                 <rect key="frame" x="85" y="0.0" width="175" height="50"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bF-mL-VmN">
+                                                    <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6bF-mL-VmN">
                                                         <rect key="frame" x="63" y="9.5" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="tappedEffector:" destination="jhD-Mz-VdU" eventType="valueChanged" id="ROU-68-L4W"/>
+                                                        </connections>
                                                     </switch>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -163,8 +169,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R1Y-aj-mEq">
                                                 <rect key="frame" x="85" y="0.0" width="175" height="50"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ko6-1n-p5h">
+                                                    <switch opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ko6-1n-p5h">
                                                         <rect key="frame" x="63" y="9.5" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="tappedEffector:" destination="jhD-Mz-VdU" eventType="valueChanged" id="KhE-C2-MGl"/>
+                                                        </connections>
                                                     </switch>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -190,8 +199,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9R2-Yl-UA2">
                                                 <rect key="frame" x="85" y="0.0" width="175" height="50"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ubm-Z7-xnn">
+                                                    <switch opaque="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ubm-Z7-xnn">
                                                         <rect key="frame" x="63" y="9.5" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="tappedEffector:" destination="jhD-Mz-VdU" eventType="valueChanged" id="21U-7L-qWt"/>
+                                                        </connections>
                                                     </switch>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>

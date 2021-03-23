@@ -291,12 +291,14 @@ class DistortionEffector: Effector {
     }
 }
 protocol Mixer: AudioSource {
-    func addEffector(effector: Effector)
+    func addEffector(effector: Effector) -> Int
+    func removeEffector(at index: Int)
 }
 
 class AudioMixer: Mixer {
-    var oscillator: Oscillator
-    var effectors: [Effector] = []
+    let semaphore = DispatchSemaphore(value: 1)
+    private var oscillator: Oscillator
+    private var effectors: [Effector] = []
     var tone: Float {
         set {
             oscillator.tone = newValue
@@ -308,14 +310,44 @@ class AudioMixer: Mixer {
     init(_ oscillator: Oscillator) {
         self.oscillator = oscillator
     }
+
     func signal(time: Float) -> Float {
+        semaphore.wait()
+
         var waveValue = oscillator.signal(time: time)
         for effector in effectors {
             waveValue = effector.signal(waveValue: waveValue, time: time)
         }
+
+        semaphore.signal()
+
         return waveValue
     }
-    func addEffector(effector: Effector) {
+
+    func addEffector(effector: Effector) -> Int {
+        semaphore.wait()
+
         effectors.append(effector)
+        let index = effectors.endIndex - 1
+
+        semaphore.signal()
+
+        return index
+    }
+
+    func removeEffector(at index: Int) {
+        semaphore.wait()
+
+        effectors.remove(at: index)
+
+        semaphore.signal()
+    }
+
+    func setOscillator(oscillator: Oscillator) {
+        semaphore.wait()
+
+        self.oscillator = oscillator
+
+        semaphore.signal()
     }
 }
